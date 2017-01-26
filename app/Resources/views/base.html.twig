@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}SF Amap Farine{% endblock %}</title>
+{% block stylesheets %}
+	{% stylesheets 'css/*.css' filter='cssrewrite' %}
+ 		   <link rel="stylesheet" href="{{ asset_url }}" />
+	{% endstylesheets %}
+{% endblock %}
+    </head>
+    <body>
+{% block navbar %} 
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Amap farine</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+                   <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hors contrats <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ path('horscontrat_list') }}">Liste des commandes hors contrats</a></li>
+				<li><a href="{{ path('horscontrat_byperson') }}">Liste des commandes hors contrat par adhérent</a></li>
+				<li><a href="{{ path('horscontrat_byproduit') }}">Liste des produits en commande hors contrat</a></li>
+                <li><a href="{{ path('horscontrat_new') }}">Nouvelle commande hors contrat</a><li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Contrats <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ path('contrat_list') }}">Liste des contrats</a></li>
+				<li><a href="{{ path('contrat_byperson') }}">Liste des contrats par adhérent</a></li>
+				<li><a href="{{ path('contrat_byproduit') }}">Liste des produits en contrat</a></li>
+                <li><a href="{{ path('contrat_new') }}">Nouveau contrat</a><li>
+              </ul>
+            </li>
+    <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Adhérents <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ path('personne_index') }}">Adhérents avec contrat</a></li>
+                <li><a href="{{ path('personne_sanscontrat') }}">Adhérents sans contrat</a></li>
+                <li><a href="{{ path('personne_new') }}">Nouvel adhérent</a><li>
+              </ul>
+            </li>
+    <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Produits <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ path('produit_index') }}">Liste des produits</a></li>
+                <li><a href="{{ path('produit_new') }}">Nouveau produit</a><li>
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+{% endblock %}
+{% block body %} {% endblock %}
+{% block javascripts %}
+	{% javascripts
+	    'js/jquery.js'
+	    'js/bootstrap.js'
+	    output='js/compiled/app.js' %}
+ 	   <script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endblock %}
+    </body>
+</html>
+

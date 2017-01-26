@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% set nbcol = 2 %}
+<h1>Contrats par adhérent</h1>
+  <table class="table table-bordered" >
+  <thead>
+	<tr>
+		<th align="center", colspan="{{ nbcol }}">Liste des contrats par adhérent</th>'
+	</tr>
+   </thead>
+   <tbody>
+	{% set i = 0 %}
+	{% set totalMeunier = 0 %}
+	{% set totalCheques = 0 %}
+	{% set totalReduc = 0 %}
+	{% for nompersonne, personne in personnes %}
+		{% if personne.cheque != 0 %}
+			{% if i == 0 %}
+				 <tr>
+			{% endif %}
+		<td>
+		<table class="table table-bordered" >
+			<thead>
+				<tr>
+		{% set total = 0.0 %}
+					<th>{{ nompersonne }} </th>
+                    <th colspan="2"><a href="{{ path('contrat_oneperson',{ 'id': personne.id }) }}">Contrats de cet adhérent</a></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for contrat in personne['contrats'] %}
+					{% set cout = contrat.produit.prix * contrat.nombre %}
+				    {% set total = total + cout %}
+					<tr>
+					<td> {{ contrat.produit.nomProduit }} 
+						{% if contrat.produit.t %}
+							T {{contrat.produit.t}}
+						{% endif %}
+						{% if contrat.produit.bio %}
+							bio 
+						{% else %}
+							non bio
+						{% endif %}	
+						{{ contrat.produit.poid }}
+					</td>
+					<td align="right"> {{ contrat.nombre }} </td>
+					<td align="right"> {{ cout}} </td>
+				</tr>
+				{% endfor %}
+				{% set totalCheques = totalCheques + personne['cheque'] %}
+				{% set totalReduc = (total *  0.93)| round(2) %}
+
+				<tr>
+					<td colspan="2">Total tarif AMAP</td>
+					<td align="right">  {{ totalReduc }}
+					</td>
+				</tr>
+				{% set rtotal = totalReduc - personne.cheque %}
+				{% if rtotal >= 0.01 or rtotal <= -0.01 %}
+					<tr><td colspan="2">Diff&eacute;rence</td>
+					<td align="right"> {{ rtotal }} </td>
+					</tr>
+				{% endif %}
+			</tbody>
+		</table>
+		</td>
+
+		{% set i = i + 1 %}
+		{% set totalMeunier = totalMeunier + totalReduc %}
+
+		{% if i == nbcol %}
+			</tr>
+			{% set i = 0 %}
+		{% endif %}
+
+        {% endif %}
+		{% endfor %} 
+	{% if i != 0 %}
+	</tr>
+	{% endif %}
+		<tr>
+		<td align="center">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Total du</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td> {{ totalMeunier }}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</td>
+		<td align="center">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Total cheques</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td> {{ totalCheques }} </td>
+					</tr>
+				</tbody>
+			</table>
+		</td>
+		</tr>
+	</tbody>
+</table>
+
+{% endblock %} {# body #}

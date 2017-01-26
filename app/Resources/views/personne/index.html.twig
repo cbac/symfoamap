@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Adhérents au contrat farine</h1>
+
+    <table  class="table table-bordered"> 
+        <thead>
+            <tr>
+                 <th>Nom</th>
+                <th>Prenom</th>
+                <th>chéque</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for index, personne in personnes %}
+            <tr>
+                <td>{{ personne.nom }}</td>
+                <td>{{ personne.prenom }}</td>
+				<td>
+                {% if personne.cheque > 0 %}
+					{{ personne.cheque }}
+				{% else %}
+					&nbsp;
+				{% endif %}
+				</td>
+                <td><a href="{{ path('personne_edit', { 'id': personne.id }) }}">modifier</a></td>
+				 <td> {{ form_start(deleteforms[index]) }}
+        				<input type="submit" value="Delete">
+     				  {{ form_end(deleteforms[index]) }}
+				</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %} {# body #}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Adhérent</h1>
+<p>Nom : {{ personne.nom }} </p>
+<p>Prénom : {{ personne.prenom }} </p>
+<p>Montant chêque : {{ personne.cheque }} </p>
+   
+<p>
+     {{ form_start(delete_form) }}
+        <input type="submit" value="Delete">
+     {{ form_end(delete_form) }}
+</p>
+
+{% endblock %}

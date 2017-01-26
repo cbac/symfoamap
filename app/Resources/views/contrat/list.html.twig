@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Contrats</h1>
+<div class="col-md-6">
+ <p><a href="{{ path('contrat_new') }}">Ajout nouveau contrat</a></p>
+ <table class="table table-bordered" >
+   <thead>
+     <tr>
+       <th>Produit</th>
+       <th>Adhérent</th>
+       <th>Nombre</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for index, contrat in contrats %}
+        <tr>
+          <td>{{ contrat.produit }}</td>
+          <td>{{ contrat.personne }}</td>
+          <td>{{ contrat.nombre }}</td>
+          <td><a href="{{ path('contrat_edit', { 'id': contrat.id }) }}">modifier</a></td>
+		  <td>	{{ form_start(deleteforms[index]) }}
+        		  <input type="submit" value="Delete">
+     			{{ form_end(deleteforms[index]) }}
+		  </td>
+         </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %} {# body #}

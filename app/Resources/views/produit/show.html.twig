@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div>
+    <h1>Produit</h1>
+<p>Nom : {{ produit.nomProduit }} </p>
+<p>{% if produit.t %}
+	T {{produit.t}}
+{% endif %}</p>
+<p>{% if produit.bio %}
+		bio 
+	{% else %}
+		non bio
+	{% endif %}	</td>
+<p>Poid : {{ produit.poid }}</p>
+<p>Prix : {{ produit.prix }}</p>
+<p>
+     {{ form_start(delete_form) }}
+        <input type="submit" value="Delete">
+     {{ form_end(delete_form) }}
+</p>
+
+
+</div>
+{% endblock %}

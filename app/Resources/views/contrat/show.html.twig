@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div>
+<h1>Contrat</h1>
+<p>Produit : {{ contrat.produit }} </p>
+<p>Personne : {{ contrat.personne }} </p>
+<p>Quantité : {{ contrat.nombre }} </p>
+{{ form_start(delete_form) }}
+    <input type="submit" value="Delete">
+{{ form_end(delete_form) }}
+
+<p>    
+<a href="{{ path('contrat_new') }}">Nouveau contrat</a>
+</p>
+
+</div>
+{% endblock %}

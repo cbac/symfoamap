@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Produits</h1>
+
+    <table class="table  table-bordered">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>T</th>
+                <th>Bio</th>
+                <th>Poid</th>
+                <th>Prix</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for produit in produits %}
+            <tr>
+                <td>{{ produit.nomProduit }}</td>
+                <td>{% if produit.t %}
+						T {{produit.t}}
+					{% endif %}</td>
+                <td>{% if produit.bio %}
+						bio 
+					{% else %}
+						non bio
+					{% endif %}
+				</td>
+                <td>{{ produit.poid }}</td>
+                <td>{{ produit.prix }}</td>
+                <td><a href="{{ path('produit_edit', { 'id': produit.id }) }}">modifier</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %} {# body #}
