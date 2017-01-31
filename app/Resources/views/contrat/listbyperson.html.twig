@@ -24,8 +24,7 @@
 			<thead>
 				<tr>
 		{% set total = 0.0 %}
-					<th>{{ nompersonne }} </th>
-                    <th colspan="2"><a href="{{ path('contrat_oneperson',{ 'id': personne.id }) }}">Contrats de cet adhérent</a></th>
+					<th colspan="3">{{ nompersonne }} </th>
 				</tr>
 			</thead>
 			<tbody>
@@ -42,7 +41,7 @@
 						{% else %}
 							non bio
 						{% endif %}	
-						{{ contrat.produit.poid }}
+						{{ contrat.produit.poid }} kg
 					</td>
 					<td align="right"> {{ contrat.nombre }} </td>
 					<td align="right"> {{ cout}} </td>
