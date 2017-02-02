@@ -24,7 +24,12 @@
 			<thead>
 				<tr>
 		{% set total = 0.0 %}
-					<th colspan="3">{{ nompersonne }} </th>
+					<th>{{ nompersonne }} </th>
+					<th>type</th>
+					<th>bio</th>
+					<th> poid </th>
+					<th> nombre </th>
+					<th> prix </th>
 				</tr>
 			</thead>
 			<tbody>
@@ -32,17 +37,17 @@
 					{% set cout = contrat.produit.prix * contrat.nombre %}
 				    {% set total = total + cout %}
 					<tr>
-					<td> {{ contrat.produit.nomProduit }} 
-						{% if contrat.produit.t %}
+					<td> {{ contrat.produit.nomProduit }} </td>
+					<td> {% if contrat.produit.t %}
 							T {{contrat.produit.t}}
-						{% endif %}
-						{% if contrat.produit.bio %}
+						 {% else %} &nbsp;
+						{% endif %}</td>
+					<td>	{% if contrat.produit.bio %}
 							bio 
 						{% else %}
 							non bio
-						{% endif %}	
-						{{ contrat.produit.poid }} kg
-					</td>
+						{% endif %}	</td>
+					<td>	{{ contrat.produit.poid }} kg </td>
 					<td align="right"> {{ contrat.nombre }} </td>
 					<td align="right"> {{ cout}} </td>
 				</tr>

@@ -22,7 +22,12 @@
 			<thead>
 				<tr>
 		{% set total = 0.0 %}
-					<th colspan="3">{{ nompersonne }} </th>
+					<th>{{ nompersonne }} </th>
+					<th>type</th>
+					<th>bio</th>
+					<th>poid</th>
+					<th>nombre</th>
+					<th>prix</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -30,17 +35,18 @@
 					{% set cout = hc.produit.prix * hc.nombre %}
 				    {% set total = total + cout %}
 					<tr>
-					<td> {{ hc.produit.nomProduit }} 
-						{% if hc.produit.t %}
+					<td> {{ hc.produit.nomProduit }} </td>
+					<td align="center">	{% if hc.produit.t %}
 							T {{hc.produit.t}}
-						{% endif %}
-						{% if hc.produit.bio %}
+						{% else %}
+							&nbsp;
+						{% endif %}</td>
+					<td align="center"> {% if hc.produit.bio %}
 							bio 
 						{% else %}
-							non bio
-						{% endif %}	
-						{{ hc.produit.poid }} kg
-					</td>
+							&nbsp;
+						{% endif %}	</td>
+					<td align="right"> {{ hc.produit.poid }} kg  </td>
 					<td align="right"> {{ hc.nombre }} </td>
 					<td align="right"> {{ cout}} </td>
 				</tr>
