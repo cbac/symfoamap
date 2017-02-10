@@ -49,15 +49,15 @@
 						{% endif %}	</td>
 					<td>	{{ contrat.produit.poid }} kg </td>
 					<td align="right"> {{ contrat.nombre }} </td>
-					<td align="right"> {{ cout}} </td>
+					<td align="right"> {{ cout|number_format(2, '.', ',')}} </td>
 				</tr>
 				{% endfor %}
 				{% set totalCheques = totalCheques + personne['cheque'] %}
 				{% set totalReduc = (total *  0.93)| round(2) %}
 
 				<tr>
-					<td colspan="2">Total tarif AMAP</td>
-					<td align="right">  {{ totalReduc }}
+					<td align="center" colspan="5">Total tarif AMAP</td>
+					<td align="right">  {{ totalReduc|number_format(2, '.', ',') }}
 					</td>
 				</tr>
 				{% set rtotal = totalReduc - personne.cheque %}

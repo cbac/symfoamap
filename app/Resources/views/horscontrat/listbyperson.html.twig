@@ -48,18 +48,19 @@
 						{% endif %}	</td>
 					<td align="right"> {{ hc.produit.poid }} kg  </td>
 					<td align="right"> {{ hc.nombre }} </td>
-					<td align="right"> {{ cout}} </td>
+					<td align="right"> {{ cout|number_format(2, '.', ',')}} </td>
 				</tr>
 				{% endfor %}
-				{% set totalReduc = (total *  0.93)|round(2) %}
+				{% set totalReduc = (total *  0.93) %}
 <!--				<tr>
-					<td colspan="2">Total</td>
-					<td align="right"> {{ total }}</td>
+
 				</tr>
 -->
 				<tr>
-					<td colspan="2">Total tarif AMAP</td>
-					<td align="right">  {{ totalReduc }}
+					<td align="center" colspan="2">Total</td>
+					<td align="right"> {{ total|number_format(2, '.', ',') }}</td>
+					<td align="center" colspan="2">Total tarif AMAP</td>
+					<td align="right">  {{ totalReduc|number_format(2, '.', ',') }}
 					</td>
 				</tr>
 			</tbody>
