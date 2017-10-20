@@ -33,7 +33,7 @@ class ContratType extends AbstractType
     			'query_builder' => function (EntityRepository $er) {
     			return $er->createQueryBuilder('pers')
     			->orderBy('pers.nom', 'ASC')
-    			->addOrderBy('pers.nom');
+    			->addOrderBy('pers.prenom');
     			}
     			))
             ->add('nombre')
