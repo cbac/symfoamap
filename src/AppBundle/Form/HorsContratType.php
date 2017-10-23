@@ -16,18 +16,7 @@ class HorsContratType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    	$builder->add('produit', EntityType::class, array(
-    			'class' => 'AppBundle:Amap\Produit',
-    			'placeholder' => 'Choisir un produit',
-    			'query_builder' => function (EntityRepository $er) {
-    			return $er->createQueryBuilder('prod')
-    			->orderBy('prod.nomProduit', 'ASC')
-    			->addOrderBy('prod.bio')
-    			->addOrderBy('prod.t')
-    			->addOrderBy('prod.poid');
-    			}
-    			))
-            ->add('personne', EntityType::class, array(
+    	$builder->add('personne', EntityType::class, array(
     			'class' => 'AppBundle:Amap\Personne',
             	'placeholder' => 'Choisir une personne',
     			'query_builder' => function (EntityRepository $er) {
@@ -36,6 +25,17 @@ class HorsContratType extends AbstractType
     			->addOrderBy('pers.prenom');
     			}
     			))
+    			->add('produit', EntityType::class, array(
+    					'class' => 'AppBundle:Amap\Produit',
+    					'placeholder' => 'Choisir un produit',
+    					'query_builder' => function (EntityRepository $er) {
+    					return $er->createQueryBuilder('prod')
+    					->orderBy('prod.nomProduit', 'ASC')
+    					->addOrderBy('prod.bio')
+    					->addOrderBy('prod.t')
+    					->addOrderBy('prod.poid');
+    					}
+    					))
             ->add('nombre')
         ;
     }
