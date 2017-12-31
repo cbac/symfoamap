@@ -31,7 +31,7 @@ class Contrat
     private $produit;
 
     /**
-     * @var person
+     * @var personne
      *
      * @ORM\ManyToOne(targetEntity="Personne", inversedBy="contrats")
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
