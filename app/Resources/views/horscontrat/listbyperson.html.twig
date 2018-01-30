@@ -51,7 +51,7 @@
 					<td align="right"> {{ cout|number_format(2, '.', ',')}} </td>
 				</tr>
 				{% endfor %}
-				{% set totalReduc = (total *  0.93) %}
+				{% set totalReduc = (total *  0.93 | round(2)) %}
 <!--				<tr>
 
 				</tr>
@@ -89,7 +89,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td> {{ totalMeunier }}
+						<td> {{ totalMeunier|number_format(2, '.', ',') }}
 						</td>
 					</tr>
 				</tbody>

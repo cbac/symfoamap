@@ -93,7 +93,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td> {{ totalMeunier }}
+						<td> {{ totalMeunier |number_format(2, '.', ',')}}
 						</td>
 					</tr>
 				</tbody>
@@ -108,7 +108,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td> {{ totalCheques }} </td>
+						<td> {{ totalCheques |number_format(2, '.', ',')}} </td>
 					</tr>
 				</tbody>
 			</table>
