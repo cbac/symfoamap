@@ -1,75 +1,62 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-{% set nbcol = 2 %}
+{% set nbcol = 1 %}
 <h1>Commandes hors contrat par adhérent</h1>
-  <table class="table table-bordered" >
-  <thead>
-	<tr>
-		<th align="center", colspan="{{ nbcol }}">Liste des commandes hors contrat par adhérent</th>'
-	</tr>
-   </thead>
-   <tbody>
 	{% set i = 0 %}
 	{% set totalMeunier = 0 %}
 	{% set totalReduc = 0 %}
+<table class="table table-bordered" >
 	{% for nompersonne, personne in personnes %}
-			{% if i == 0 %}
-				 <tr>
-			{% endif %}
+		{% if i == 0 %}
+			 <tr>
+		{% endif %}
 		<td>
-		<table class="table table-bordered" >
-			<thead>
-				<tr>
+	<table class="table table-bordered" >
+		<thead>
+			<tr>
 		{% set total = 0.0 %}
 					<th>{{ nompersonne }} </th>
-					<th>type</th>
-					<th>bio</th>
-					<th>poid</th>
-					<th>nombre</th>
-					<th>prix</th>
-				</tr>
-			</thead>
-			<tbody>
+					<th align="center">type</th>
+					<th align="center">bio</th>
+					<th align="center">poid</th>
+					<th align="center">nombre</th>
+					<th align="center">prix</th>
+			</tr>
+		</thead>
+		<tbody>
 				{% for hc in personne['horscontrats'] %}
-					{% set cout = hc.produit.prix * hc.nombre %}
+					{% set cout = ( hc.produit.prix * hc.nombre *  0.93 | round(2))%}
 				    {% set total = total + cout %}
-					<tr>
-					<td> {{ hc.produit.nomProduit }} </td>
-					<td align="center">	{% if hc.produit.t %}
+			<tr>
+				<td> {{ hc.produit.nomProduit }} </td>
+				<td align="center">	{% if hc.produit.t %}
 							T {{hc.produit.t}}
 						{% else %}
 							&nbsp;
 						{% endif %}</td>
-					<td align="center"> {% if hc.produit.bio %}
+				<td align="center"> {% if hc.produit.bio %}
 							bio 
 						{% else %}
 							&nbsp;
 						{% endif %}	</td>
-					<td align="right"> {{ hc.produit.poid }} kg  </td>
-					<td align="right"> {{ hc.nombre }} </td>
-					<td align="right"> {{ cout|number_format(2, '.', ',')}} </td>
-				</tr>
+				<td align="right"> {{ hc.produit.poid }} kg  </td>
+				<td align="right"> {{ hc.nombre }} </td>
+				<td align="right"> {{ cout|number_format(2, '.', ',')}} </td>
+			</tr>
 				{% endfor %}
-				{% set totalReduc = (total *  0.93 | round(2)) %}
-<!--				<tr>
-
-				</tr>
--->
-				<tr>
-					<td align="center" colspan="2">Total</td>
-					<td align="right"> {{ total|number_format(2, '.', ',') }}</td>
-					<td align="center" colspan="2">Total tarif AMAP</td>
-					<td align="right">  {{ totalReduc|number_format(2, '.', ',') }}
-					</td>
-				</tr>
 			</tbody>
-		</table>
-		</td>
-
+			<tfoot>
+			<tr>
+				<th colspan="4">Signature</th>
+				<td align="center">Total</td>
+				<td align="right"> {{ total|number_format(2, '.', ',') }}</td>
+			</tr>
 		{% set i = i + 1 %}
 		{% set totalMeunier = totalMeunier + totalReduc %}
-
+            </tfoot>
+            </table>
+            </td>
 		{% if i == nbcol %}
 			</tr>
 			{% set i = 0 %}
@@ -80,21 +67,8 @@
 	</tr>
 	{% endif %}
 		<tr>
-		<td align="center">
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>Total du</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td> {{ totalMeunier|number_format(2, '.', ',') }}
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</td>
+			<th>Total du</th>
+			<td> {{ totalMeunier|number_format(2, '.', ',') }}	</td>
 		</tr>
 	</tbody>
 </table>

@@ -1,120 +1,81 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-{% set nbcol = 2 %}
+{% set nbcol = 1 %}
 <h1>Contrats par adhérent</h1>
-  <table class="table table-bordered" >
-  <thead>
-	<tr>
-		<th align="center", colspan="{{ nbcol }}">Liste des contrats par adhérent</th>'
-	</tr>
-   </thead>
-   <tbody>
 	{% set i = 0 %}
 	{% set totalMeunier = 0 %}
 	{% set totalCheques = 0 %}
 	{% set totalReduc = 0 %}
+	<table class="table table-bordered" >
 	{% for nompersonne, personne in personnes %}
 		{% if personne.cheque != 0 %}
 			{% if i == 0 %}
 				 <tr>
 			{% endif %}
-		<td>
-		<table class="table table-bordered" >
-			<thead>
-				<tr>
+	<td>
+	<table class="table table-bordered" >
+	<thead>
+		<tr>
 		{% set total = 0.0 %}
-					<th>{{ nompersonne }} </th>
-					<th>type</th>
-					<th>bio</th>
-					<th> poid </th>
-					<th> nombre </th>
-					<th> prix </th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for contrat in personne['contrats'] %}
-					{% set cout = contrat.produit.prix * contrat.nombre %}
-				    {% set total = total + cout %}
-					<tr>
-					<td> {{ contrat.produit.nomProduit }} </td>
-					<td> {% if contrat.produit.t %}
+			<th align="center">{{ nompersonne }}</th>
+			<th align="center">Produit</th>
+			<th align="center">Type</th>
+			<th align="center">Bio</th>
+			<th align="center">Poid</th>
+			<th>Nombre</th>
+			<th>Prix</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for contrat in personne['contrats'] %}
+			{% set cout = ((contrat.produit.prix  *  0.93)| round(2) ) * contrat.nombre %}
+			{% set total = total + cout %}
+		<tr>
+			<td> &nbsp; </td>
+			<td align="center"> {{ contrat.produit.nomProduit }} </td>
+			<td align="center"> 
+			    {% if contrat.produit.t %}
 							T {{contrat.produit.t}}
-						 {% else %} &nbsp;
-						{% endif %}</td>
-					<td>	{% if contrat.produit.bio %}
-							bio 
-						{% else %}
-							non bio
-						{% endif %}	</td>
-					<td>	{{ contrat.produit.poid }} kg </td>
-					<td align="right"> {{ contrat.nombre }} </td>
-					<td align="right"> {{ cout|number_format(2, '.', ',')}} </td>
-				</tr>
-				{% endfor %}
-				{% set totalCheques = totalCheques + personne['cheque'] %}
-				{% set totalReduc = (total *  0.93)| round(2) %}
+                {% else %} 
+                        &nbsp;
+				{% endif %}
+			</td>
+			<td align="center">	
+                {% if contrat.produit.bio %}
+						bio 
+                {% else %}
+						non bio
+                {% endif %}	</td>
+			<td align="center">	{{ contrat.produit.poid }} kg </td>
+			<td align="right"> {{ contrat.nombre }} </td>
+			<td align="right"> {{ cout|number_format(2, '.', ',')}} </td>
+		</tr>
+		{% endfor %}
+		<tr>
+             <th colspan="5">Signature</th>
+             <td align="center">Total</td>
+              <td align="right"> {{ total|number_format(2, '.', ',') }}</td>
 
-				<tr>
-					<td align="center" colspan="5">Total tarif AMAP</td>
-					<td align="right">  {{ totalReduc|number_format(2, '.', ',') }}
-					</td>
-				</tr>
-				{% set rtotal = totalReduc - personne.cheque %}
-				{% if rtotal >= 0.01 or rtotal <= -0.01 %}
-					<tr><td colspan="2">Diff&eacute;rence</td>
-					<td align="right"> {{ rtotal }} </td>
-					</tr>
 				{% endif %}
 			</tbody>
 		</table>
 		</td>
 
 		{% set i = i + 1 %}
-		{% set totalMeunier = totalMeunier + totalReduc %}
+		{% set totalMeunier = totalMeunier + total %}
 
 		{% if i == nbcol %}
 			</tr>
 			{% set i = 0 %}
 		{% endif %}
 
-        {% endif %}
 		{% endfor %} 
 	{% if i != 0 %}
 	</tr>
 	{% endif %}
-		<tr>
-		<td align="center">
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>Total du</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td> {{ totalMeunier |number_format(2, '.', ',')}}
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</td>
-		<td align="center">
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>Total cheques</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td> {{ totalCheques |number_format(2, '.', ',')}} </td>
-					</tr>
-				</tbody>
-			</table>
-		</td>
-		</tr>
-	</tbody>
-</table>
+    </tbody>
+    </table>
+
 
 {% endblock %} {# body #}
