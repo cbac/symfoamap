@@ -1,0 +1,66 @@
+
+
+2017-01-02 09:35             listoneperson.html.twig              Page 1
+
+
+    1	{% extends 'base.html.twig' %}
+    2	
+    3	{% block body %}
+    4	<h1>Contrats de l'adhérent {{personne.tostring}}</h1>
+    5	<p><a href="{{ path('contrat_add', { 'id': personne.id }) }}">Ajout nouveau contrat</a></p>
+    6	<table class="table table-bordered" >
+    7	  <thead>
+    8	    <tr>
+    9	    {% set total = 0.0 %}
+   10	      <th colspan="3">{{personne.tostring}} </th>
+   11	    </tr>
+   12	  </thead>
+   13	  <tbody>
+   14	    {% for index, contrat in personne['contrats'] %}
+   15	    {% set cout = contrat.produit.prix * contrat.nombre %}
+   16	    {% set total = total + cout %}
+   17	      <tr>
+   18	        <td> {{ contrat.produit.nomProduit }} 
+   19	        {% if contrat.produit.t %}
+   20	          T {{contrat.produit.t}}
+   21	        {% endif %}
+   22	        {% if contrat.produit.bio %}
+   23	          bio 
+   24	        {% else %}
+   25	          non bio
+   26	        {% endif %}	
+   27	        {{ contrat.produit.poid }}kg
+   28	        </td>
+   29	        <td align="right"> {{ contrat.nombre }} </td>
+   30	        <td align="right"> {{ cout}} </td>
+   31	        <td><a href="{{ path('contrat_edit', { 'id': contrat.id }) }}">modifier</a></td>
+   32			<td><a href="{{ path('contrat_delete', { 'id': contrat.id }) }}">supprimer</a></td>
+   33			</td>
+   34	      </tr>
+   35	    {% endfor %}
+   36	    {% set totalReduc = (total *  0.93)| round(2) %}
+   37	    <tr>
+   38	     <td colspan="2">Total</td>
+   39	     <td align="right"> {{ total }}</td>
+   40	    </tr>
+   41	    <tr>
+   42	    <td colspan="2">Total tarif AMAP</td>
+   43	    <td align="right">  {{ totalReduc }}</td>
+   44		</tr>
+   45	    {% set rtotal = totalReduc - personne.cheque %}
+   46	    {% if rtotal >= 0.01 or rtotal <= -0.01 %}
+   47	    <tr>
+   48	      <td colspan="2">Diff&eacute;rence</td>
+   49	      <td align="right"> {{ rtotal }} </td>
+   50	    </tr>
+   51	    {% endif %}
+   52	  </tbody>
+   53	</table>
+   54	{% endblock %} {# body #}
+
+
+
+
+
+
+
