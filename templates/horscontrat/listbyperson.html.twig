@@ -6,13 +6,13 @@
 	{% set i = 0 %}
 	{% set totalMeunier = 0 %}
 	{% set totalReduc = 0 %}
-<table class="table table-bordered" >
+<table>
 	{% for nompersonne, personne in personnes %}
 		{% if i == 0 %}
 			 <tr>
 		{% endif %}
 		<td>
-	<table class="table table-bordered" >
+	<table class="table-bordered table" >
 		<thead>
 			<tr>
 		{% set total = 0.0 %}
@@ -53,7 +53,7 @@
 				<td align="right"> {{ total|number_format(2, '.', ',') }}</td>
 			</tr>
 		{% set i = i + 1 %}
-		{% set totalMeunier = totalMeunier + totalReduc %}
+		{% set totalMeunier = totalMeunier + total %}
             </tfoot>
             </table>
             </td>

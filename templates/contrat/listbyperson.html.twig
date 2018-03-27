@@ -1,38 +1,32 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-{% set nbcol = 1 %}
 <h1>Contrats par adhérent</h1>
-	{% set i = 0 %}
 	{% set totalMeunier = 0 %}
 	{% set totalCheques = 0 %}
 	{% set totalReduc = 0 %}
-	<table class="table table-bordered" >
+    <table class="table-bordered table-condensed" >
+	   <thead>
+        <tr>
+
+            <th align="center">Amapiene ou amapien</th>
+            <th align="center">Produit</th>
+            <th align="center">Type</th>
+            <th align="center">Bio</th>
+            <th align="center">Poid</th>
+            <th>Nombre</th>
+            <th>Prix</th>
+        </tr>
+    </thead>
 	{% for nompersonne, personne in personnes %}
 		{% if personne.cheque != 0 %}
-			{% if i == 0 %}
-				 <tr>
-			{% endif %}
-	<td>
-	<table class="table table-bordered" >
-	<thead>
-		<tr>
-		{% set total = 0.0 %}
-			<th align="center">{{ nompersonne }}</th>
-			<th align="center">Produit</th>
-			<th align="center">Type</th>
-			<th align="center">Bio</th>
-			<th align="center">Poid</th>
-			<th>Nombre</th>
-			<th>Prix</th>
-		</tr>
-	</thead>
+	    {% set total = 0.0 %}
 	<tbody>
 		{% for contrat in personne['contrats'] %}
 			{% set cout = ((contrat.produit.prix  *  0.93)| round(2) ) * contrat.nombre %}
 			{% set total = total + cout %}
 		<tr>
-			<td> &nbsp; </td>
+			<td>{{ nompersonne }}</td>
 			<td align="center"> {{ contrat.produit.nomProduit }} </td>
 			<td align="center"> 
 			    {% if contrat.produit.t %}
@@ -56,26 +50,18 @@
              <th colspan="5">Signature</th>
              <td align="center">Total</td>
               <td align="right" > {{ total|number_format(2, '.', ',') }}</td>
-
-				{% endif %}
-			</tbody>
-		</table>
-		</td>
-
-		{% set i = i + 1 %}
+        </tr>
+     </tbody>
 		{% set totalMeunier = totalMeunier + total %}
-
-		{% if i == nbcol %}
-			</tr>
-			{% set i = 0 %}
-		{% endif %}
-
-		{% endfor %} 
-	{% if i != 0 %}
-	</tr>
 	{% endif %}
-    </tbody>
+	{% endfor %}
+	<tbody>
+	<tr>
+	   <th>Total du</th>
+	   <td colspan="4">&nbsp;</td>
+        <td> {{ totalMeunier }}</td>
+     </tr>
+     </tbody>
     </table>
-
 
 {% endblock %} {# body #}
