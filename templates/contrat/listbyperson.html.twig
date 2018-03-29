@@ -5,11 +5,17 @@
 	{% set totalMeunier = 0 %}
 	{% set totalCheques = 0 %}
 	{% set totalReduc = 0 %}
-    <table class="table-bordered table-condensed" >
-	   <thead>
+	<table>
+
+	{% for nompersonne, personne in personnes %}
+		{% if personne.cheque != 0 %}
+	    {% set total = 0.0 %}
+	        <tr><td>
+   <table class="table-bordered table" >
+       <thead>
         <tr>
 
-            <th align="center">Amapiene ou amapien</th>
+            <th align="center">{{ nompersonne }}</th>
             <th align="center">Produit</th>
             <th align="center">Type</th>
             <th align="center">Bio</th>
@@ -17,16 +23,12 @@
             <th>Nombre</th>
             <th>Prix</th>
         </tr>
-    </thead>
-	{% for nompersonne, personne in personnes %}
-		{% if personne.cheque != 0 %}
-	    {% set total = 0.0 %}
-	<tbody>
+    </thead>	<tbody>
 		{% for contrat in personne['contrats'] %}
 			{% set cout = ((contrat.produit.prix  *  0.93)| round(2) ) * contrat.nombre %}
 			{% set total = total + cout %}
 		<tr>
-			<td>{{ nompersonne }}</td>
+			<td> &nbsp;</td>
 			<td align="center"> {{ contrat.produit.nomProduit }} </td>
 			<td align="center"> 
 			    {% if contrat.produit.t %}
@@ -53,8 +55,14 @@
         </tr>
      </tbody>
 		{% set totalMeunier = totalMeunier + total %}
+	</table>
+    </td>
+    </tr>
 	{% endif %}
 	{% endfor %}
+	<tr>
+	<td>
+	<table>
 	<tbody>
 	<tr>
 	   <th>Total du</th>
@@ -63,5 +71,8 @@
      </tr>
      </tbody>
     </table>
+    </td>
+    </tr>
+</table>
 
 {% endblock %} {# body #}
