@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Amap\HorsContrat;
+use App\Entity\Amap\Personne;
 use App\Form\HorsContratType;
 
 
@@ -26,7 +27,7 @@ class HorsContratController extends Controller
         return $this->render('horscontrat/index.html.twig');
     }
     /**
-     * Lists data constructed either in indexAction or in listNonValueAction
+     * Lists data constructed either in indexAction or in listAction
      */
     private function renderList($horscontrats) {
     	$deleteforms = array();
@@ -60,25 +61,15 @@ class HorsContratController extends Controller
      */
     public function listbypersonAction() {
     	$em = $this->getDoctrine ()->getManager ();
-    	$horscontrats = $em->getRepository ( 'App:Amap\HorsContrat' )->findAll ();
-    
-    	$hcsByPersonId = array ();
-    	$personsById = array ();
-    	foreach ( $horscontrats as $horscontrat ) {
-    		$person = $horscontrat->getPersonne ();
-    		$personId = $person->getId ();
-    		if (! array_key_exists ( $personId, $hcsByPersonId )) {
-    			$personsById [$personId] = $person;
-    			$hcsByPersonId [$personId] = array ();
-    		}
-    		$hcsByPersonId [$personId] [] = $horscontrat;
-    	}
-    
+    	$personsById = $em->getRepository ( 'App:Amap\Personne' )->findAll ();
+      
     	$hcPersons = array ();
-    	foreach ( $personsById as $id => $person ) {
-    		$hcPersons [$person->__toString ()] = array (
-    				'horscontrats' => $hcsByPersonId [$id]
-    		);
+    	foreach ( $personsById as $person ) {
+    	    if($person->getHorsContrats()->count() > 0) {
+        		$hcPersons [$person->__toString ()] = array (
+    				'horscontrats' => $person->getHorsContrats(),
+        		);
+    	    }
     	}
     	ksort ( $hcPersons, SORT_STRING );
     
@@ -223,5 +214,18 @@ class HorsContratController extends Controller
     	return $this->createFormBuilder ()->setAction ( $this->generateUrl ( 'horscontrat_delete', array (
     			'id' => $horscontrat->getId ()
     	) ) )->setMethod ( 'DELETE' )->getForm ();
+    }
+    /**
+     * Creates a form to edit a Personne HorsContrat entity.
+     *
+     * @param Personne $personne
+     *        	The HorsContrat entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(HorsContrat $horscontrat) {
+        return $this->createFormBuilder ()->setAction ( $this->generateUrl ( 'horscontrat_edit', array (
+            'id' => $horscontrat->getId ()
+        ) ) )->setMethod ( 'GET' )->getForm ();
     }
 }

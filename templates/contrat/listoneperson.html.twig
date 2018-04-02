@@ -18,7 +18,10 @@
         <td> {{ produitString[index]}}        </td>
         <td align="right"> {{ contrat.nombre }} </td>
         <td align="right"> {{ cout}} </td>
-        <td><a href="{{ path('contrat_edit', { 'id': contrat.id }) }}">modifier</a></td>
+        <td>    {{ form_start(editforms[index]) }}
+                  <input type="submit" value="Edit">
+                {{ form_end(editforms[index]) }}
+        </td>
 		<td>	{{ form_start(deleteforms[index]) }}
         		  <input type="submit" value="Delete">
      			{{ form_end(deleteforms[index]) }}

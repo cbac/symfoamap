@@ -37,7 +37,7 @@ class ContratController extends Controller {
 		return $this->renderList( $contrats, 'contrat/list.html.twig' );
 	}
 	/**
-	 * Lists data constructed either in indexAction or in listNonValueAction
+	 * Lists data constructed in listAction
 	 */
 	private function renderList($contrats,$twig) {
 		$deleteforms = array();
@@ -57,7 +57,7 @@ class ContratController extends Controller {
 	 */
 	public function listbypersonAction() {
 		$em = $this->getDoctrine ()->getManager ();
-		$contrats = $em->getRepository ( 'App:Amap\Contrat' )->findAll ();
+/*		$contrats = $em->getRepository ( 'App:Amap\Contrat' )->findAll ();
 		
 		$contractsByPersonId = array ();
 		$personsById = array ();
@@ -70,37 +70,46 @@ class ContratController extends Controller {
 			}
 			$contractsByPersonId [$personId] [] = $contrat;
 		}
+		*/
+		$em = $this->getDoctrine ()->getManager ();
+		$personsById = $em->getRepository ( 'App:Amap\Personne' )->findAll ();
 		
-		$contractPersons = array ();
-		foreach ( $personsById as $id => $person ) {
-			$contractPersons [$person->__toString ()] = array (
-					'id' => $id,
-					'cheque' => $person->getCheque (),
-					'contrats' => $contractsByPersonId [$id] 
-			);
+		$cPersons = array ();
+		foreach ( $personsById as $person ) {
+		    if($person->getContrats()->count() > 0) {
+		        $cPersons [$person->__toString ()] = array (
+		            'contrats' => $person->getContrats(),
+		            'id' => $person->getid(),
+		            'cheque' => $person->getCheque (),
+		        );
+		    }
 		}
-		ksort ( $contractPersons, SORT_STRING );
+
+		ksort ( $cPersons, SORT_STRING );
 
 		return $this->render ( 'contrat/listbyperson.html.twig', array (
-				'personnes' => $contractPersons 
+				'personnes' => $cPersons 
 		) );
 	}
 	/**
 	 * Liste les contrats par utilisateur.
 	 *
-	 * @Route("/contrat/listoneperson/{id}", name="contrat_oneperson", 
+	 * @Route("/contrat/{id}/list", name="contrat_oneperson", 
 	 * 		requirements={ "id": "\d+" })
 	 * @Method("GET")
 	 */
 	public function listOnepersonAction(Request $request, Personne $personne) {
-		$em = $this->getDoctrine ()->getManager ();
-		$contrats = $em->getRepository ( 'App:Amap\Contrat' )->
-			findBy(array('personne'=>$personne->getId()));
+//		$em = $this->getDoctrine ()->getManager ();
+//		$contrats = $em->getRepository ( 'App:Amap\Contrat' )->
+//			findBy(array('personne'=>$personne->getId()));
 			$deleteviews = array();
+			$editviews = array();
 			$produitString= array();
-			foreach ( $contrats as $contrat ) {
+			foreach ( $personne->getContrats() as $contrat ) {
 				$deleteForm = $this->createDeleteForm ( $contrat );
 				$deleteviews[] =  $deleteForm->createView ();
+				$editForm = $this->createEditForm ( $contrat );
+				$editviews[] =  $editForm->createView ();
 				$produitString[] = $contrat->getProduit()->__toString();
 			}
 			
@@ -108,9 +117,10 @@ class ContratController extends Controller {
 					'tostring' => $personne->__toString (),
 					'id' => $personne->getId(),
 					'cheque' => $personne->getCheque (),
-					'contrats' => $contrats,
+			         'contrats' => $personne->getContrats(),
 					'produitString' => $produitString,
-					'deleteforms' => $deleteviews
+					'deleteforms' => $deleteviews,
+			         'editforms' => $editviews
 			);
 		$res = $this->render ( 'contrat/listoneperson.html.twig', $contractPerson );
 		return $res;
@@ -282,14 +292,27 @@ class ContratController extends Controller {
 			->setMethod ( 'DELETE' )->getForm ();
 	}
 	/**
+	 * Creates a form to edit a Contrat entity.
+	 *
+	 * @param Contrat $contrat
+	 *        	The Contrat entity
+	 *
+	 * @return \Symfony\Component\Form\Form The form
+	 */
+	private function createEditForm(Contrat $contrat) {
+	    return $this->createFormBuilder ()
+	    ->setAction ( $this->generateUrl ( 'contrat_edit', array ( 'id' => $contrat->getId ()) ) )
+	    ->setMethod ( 'GET' )->getForm ();
+	}
+	/**
 	 * Creates sorted infos for actions related to distribution : indexByProduit, indexByPersonne, indexDistrib
 	 */
-	private function getSortedInfos() {
+/*	private function getSortedInfos() {
 		$em = $this->getDoctrine ()->getManager ();
 		$this->contrats = $em->getRepository ( 'App:Amap\Contrat' )->findAll ();
 		
-		$this->alphaPersons = $em->getRepository ( 'App:Amap\Personne' )->findAll ();
-		$this->alphaProduits = $em->getRepository ( 'App:Amap\Produit' )->findAll ();
+//		$this->alphaPersons = $em->getRepository ( 'App:Amap\Personne' )->findAll ();
+//		$this->alphaProduits = $em->getRepository ( 'App:Amap\Produit' )->findAll ();
 		$this->personnes = $em->getRepository ( 'App:Amap\Personne' )->findById ();
 		$this->produits = $em->getRepository ( 'App:Amap\Produit' )->findById ();
 		
@@ -317,4 +340,5 @@ class ContratController extends Controller {
 		}
 		ksort ( $this->personByCount );
 	}
+	*/
 }

@@ -4,6 +4,7 @@ namespace App\Entity\Amap;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Personne
@@ -56,6 +57,11 @@ class Personne
 	 */
     private $contrats;
 
+    /**
+     * @var array
+     * @ORM\OneToMany(targetEntity="HorsContrat", mappedBy="personne")
+     */
+    private $horscontrats;
     
     /**
      * Get id
@@ -150,7 +156,8 @@ class Personne
      */
     public function __construct()
     {
-        $this->contrats = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->contrats = new ArrayCollection();
+        $this->horscontrats = new ArrayCollection();
     }
 
     /**
@@ -162,7 +169,7 @@ class Personne
      */
     public function addContrat(\App\Entity\Amap\Contrat $contrat)
     {
-        $this->contrats[] = $contrat;
+        $this->contrats->add($contrat);
 
         return $this;
     }
@@ -185,5 +192,14 @@ class Personne
     public function getContrats()
     {
         return $this->contrats;
+    }
+    /**
+     * Get horscontrats
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getHorsContrats()
+    {
+        return $this->horscontrats;
     }
 }
