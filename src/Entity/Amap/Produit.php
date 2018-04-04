@@ -55,11 +55,12 @@ class Produit
      * @ORM\Column(name="prix", type="float")
      */
     private $prix;
-    /**
-     * @var array
-     * @ORM\OneToMany(targetEntity="Contrat", mappedBy="produit")
-     */
-    private $contrats;
+
+//    /**
+//     * @var array
+//     * @ORM\OneToMany(targetEntity="Contrat", mappedBy="produit")
+//     */
+//    private $contrats;
     
     /**
      * Get id

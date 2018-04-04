@@ -53,9 +53,9 @@ class Personne
 
 	/**
 	 * @var array 
-	 * @ORM\OneToMany(targetEntity="Contrat", mappedBy="personne")
+	 * @ORM\OneToOne(targetEntity="Contrat", mappedBy="personne")
 	 */
-    private $contrats;
+    private $contrat;
 
     /**
      * @var array
