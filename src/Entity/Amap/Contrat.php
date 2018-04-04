@@ -116,7 +116,7 @@ class Contrat
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getLignees()
+    public function getLignes()
     {
         return $this->lignes;
     }

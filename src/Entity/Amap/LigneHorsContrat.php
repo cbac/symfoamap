@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\Amap\LigneHorsContratRepository")
  *
  */
-class LigneContrat
+class LigneHorsContrat
 {
     /**
      * @var int
@@ -33,7 +33,7 @@ class LigneContrat
     /**
      * @var Contrat
      *
-     * @ORM\ManyToOne(targetEntity="Contrat", inversedBy="ligne")
+     * @ORM\ManyToOne(targetEntity="HorsContrat", inversedBy="lignes")
      * @ORM\JoinColumn(name="contrat_id", referencedColumnName="id")
      */
     private $contrat;

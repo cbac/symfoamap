@@ -24,27 +24,27 @@
             <th>Prix</th>
         </tr>
     </thead>	<tbody>
-		{% for contrat in personne['contrats'] %}
-			{% set cout = ((contrat.produit.prix  *  0.93)| round(2) ) * contrat.nombre %}
+		{% for ligne in personne['lignes'] %}
+			{% set cout = ((ligne.produit.prix  *  0.93)| round(2) ) * ligne.nombre %}
 			{% set total = total + cout %}
 		<tr>
 			<td> &nbsp;</td>
-			<td align="center"> {{ contrat.produit.nomProduit }} </td>
+			<td align="center"> {{ ligne.produit.nomProduit }} </td>
 			<td align="center"> 
-			    {% if contrat.produit.t %}
-							T {{contrat.produit.t}}
+			    {% if ligne.produit.t %}
+							T {{ligne.produit.t}}
                 {% else %} 
                         &nbsp;
 				{% endif %}
 			</td>
 			<td align="center">	
-                {% if contrat.produit.bio %}
+                {% if ligne.produit.bio %}
 						bio 
                 {% else %}
 						non bio
                 {% endif %}	</td>
-			<td align="center">	{{ contrat.produit.poid }} kg </td>
-			<td align="right"> {{ contrat.nombre }} </td>
+			<td align="center">	{{ ligne.produit.poid }} kg </td>
+			<td align="right"> {{ ligne.nombre }} </td>
 			<td align="right"> {{ cout|number_format(2, '.', ',')}} </td>
 		</tr>
 		{% endfor %}

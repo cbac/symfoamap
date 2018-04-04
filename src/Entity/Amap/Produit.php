@@ -24,7 +24,7 @@ class Produit
     /**
      * @var string
      *
-     * @ORM\Column(name="nom_produit", type="string", length=60, unique=true)
+     * @ORM\Column(name="nom_produit", type="string", length=60)
      */
     private $nomProduit;
 
@@ -203,39 +203,5 @@ class Produit
     public function __construct()
     {
         $this->contrats = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add contrat
-     *
-     * @param \App\Entity\Amap\Contrats $contrat
-     *
-     * @return Produit
-     */
-    public function addContrat(\App\Entity\Amap\Contrat $contrat)
-    {
-        $this->contrats[] = $contrat;
-
-        return $this;
-    }
-
-    /**
-     * Remove contrat
-     *
-     * @param \App\Entity\Amap\Contrats $contrat
-     */
-    public function removeContrat(\App\Entity\Amap\Contrat $contrat)
-    {
-        $this->contrats->removeElement($contrat);
-    }
-
-    /**
-     * Get contrats
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getContrats()
-    {
-        return $this->contrats;
     }
 }

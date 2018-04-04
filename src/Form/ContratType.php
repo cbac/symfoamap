@@ -21,13 +21,7 @@ class ContratType extends AbstractType {
 				'query_builder' => function (EntityRepository $er) {
 					return $er->createQueryBuilder ( 'pers' )->orderBy ( 'pers.nom', 'ASC' )->addOrderBy ( 'pers.prenom' );
 				} 
-		) )->add ( 'produit', EntityType::class, array (
-				'class' => 'App:Amap\Produit',
-				'placeholder' => 'Choisir un produit',
-				'query_builder' => function (EntityRepository $er) {
-					return $er->createQueryBuilder ( 'prod' )->orderBy ( 'prod.nomProduit', 'ASC' )->addOrderBy ( 'prod.bio' )->addOrderBy ( 'prod.t' )->addOrderBy ( 'prod.poid' );
-				} 
-		) )->add ( 'nombre' );
+		) );
 	}
 	
 	/**

@@ -14,9 +14,9 @@ use App\Form\ContratType;
 /**
  * Contrat controller.
  */
-class ContratController extends Controller {
+class LigneContratController extends Controller {
 	/**
-	 * Lists routes in contrat
+	 * Lists routes in 
 	 *
 	 * 
 	 * @Method("GET")
@@ -26,9 +26,9 @@ class ContratController extends Controller {
 	}
 	
 	/**
-	 * Lists all Contrat entities.
-	 * @Route("/contrat/", name="contrat_index")
-	 * @Route("/contrat/list/", name="contrat_list")
+	 * Lists all Lignes entities.
+	 * @Route("/lignecontrat/", name="ligne_index")
+	 * @Route("/lignecontrat/list/", name="ligne_list")
 	 * @Method("GET")
 	 */
 	public function listAction() {
@@ -52,7 +52,7 @@ class ContratController extends Controller {
 	/**
 	 * Liste les contrats par utilisateur.
 	 *
-	 * @Route("/contrat/listbyperson/", name="contrat_byperson")
+	 * @Route("/lignecontrat/listbyperson/", name="ligne_byperson")
 	 * @Method("GET")
 	 */
 	public function listbypersonAction() {
@@ -78,7 +78,7 @@ class ContratController extends Controller {
 	/**
 	 * Liste les contrats par utilisateur.
 	 *
-	 * @Route("/contrat/{id}/list", name="contrat_oneperson", 
+	 * @Route("/lignecontrat/{id}/list", name="ligne_oneperson", 
 	 * 		requirements={ "id": "\d+" })
 	 * @Method("GET")
 	 */
@@ -112,7 +112,7 @@ class ContratController extends Controller {
 	/**
 	 * Liste les contrats par produit.
 	 *
-	 * @Route("/contrat/listbyproduit/", name="contrat_byproduit")
+	 * @Route("/lignecontrat/listbyproduit/", name="ligne_byproduit")
 	 * @Method("GET")
 	 */
 	public function listbyproduitAction() {
@@ -143,7 +143,7 @@ class ContratController extends Controller {
 	/**
 	 * Finds and displays a Contrat entity.
 	 *
-	 * @Route("/contrat/{id}", name="contrat_show", requirements={
+	 * @Route("/lignecontrat/{id}", name="lignecontrat_show", requirements={
 	 * "id": "\d+"
 	 * })
 	 * @Method("GET")
@@ -158,7 +158,7 @@ class ContratController extends Controller {
 	/**
 	 * Creates a new Contrat entity.
 	 *
-	 * @Route("/contrat/new", name="contrat_new")
+	 * @Route("/lignecontrat/new", name="lignecontrat_new")
 	 * @Method({"GET", "POST"})
 	 */
 	public function newContratAction(Request $request) {
@@ -187,7 +187,7 @@ class ContratController extends Controller {
 	/**
 	 * Creates a new Contrat entity for a user.
 	 *
-	 * @Route("/contrat/add/{id}", name="contrat_add") 
+	 * @Route("/lignecontrat/add/{id}", name="lignecontrat_add") 
 	 * 		requirements={ "id": "\d+" })
 	 * @Method({"GET", "POST"})
 	 */
@@ -218,7 +218,7 @@ class ContratController extends Controller {
 	/**
 	 * Displays a form to edit an existing Contrat entity.
 	 *
-	 * @Route("/contrat/{id}/edit", name="contrat_edit")
+	 * @Route("/lignecontrat/{id}/edit", name="lignecontrat_edit")
 	 * @Method({"GET", "POST"})
 	 */
 	public function editContratAction(Request $request, Contrat $contrat) {
@@ -245,7 +245,7 @@ class ContratController extends Controller {
 	/**
 	 * Deletes a Contrat entity.
 	 *
-	 * @Route("/contrat/{id}/delete", name="contrat_delete")
+	 * @Route("/lignecontrat/{id}/delete", name="lignecontrat_delete")
 	 * @Method({"GET","DELETE"})
 	 */
 	public function deleteContratAction(Request $request, Contrat $contrat) {
@@ -288,41 +288,4 @@ class ContratController extends Controller {
 	    ->setAction ( $this->generateUrl ( 'contrat_edit', array ( 'id' => $contrat->getId ()) ) )
 	    ->setMethod ( 'GET' )->getForm ();
 	}
-	/**
-	 * Creates sorted infos for actions related to distribution : indexByProduit, indexByPersonne, indexDistrib
-	 */
-/*	private function getSortedInfos() {
-		$em = $this->getDoctrine ()->getManager ();
-		$this->contrats = $em->getRepository ( 'App:Amap\Contrat' )->findAll ();
-		
-//		$this->alphaPersons = $em->getRepository ( 'App:Amap\Personne' )->findAll ();
-//		$this->alphaProduits = $em->getRepository ( 'App:Amap\Produit' )->findAll ();
-		$this->personnes = $em->getRepository ( 'App:Amap\Personne' )->findById ();
-		$this->produits = $em->getRepository ( 'App:Amap\Produit' )->findById ();
-		
-		$this->contratsByPersonId = array ();
-		$curNb = 0;
-		foreach ( $this->contrats as $contrat ) {
-			$pid = $contrat->getPersonId ();
-			if (! array_key_exists ( $pid, $this->contratsByPersonId )) {
-				$this->contratsByPersonId [$pid] = array ();
-			}
-			$curNb = count ( $this->contratsByPersonId [$pid] );
-			$this->contratsByPersonId [$pid] [$curNb] = $contrat;
-		}
-		$this->personByCount = array ();
-		foreach ( $this->contratsByPersonId as $pid => $contrats ) {
-			$count = 0;
-			foreach ( $contrats as $contrat ) {
-				$count += $contrat->getNombre ();
-			}
-			if (! array_key_exists ( $count, $personByCount )) {
-				$this->personByCount [$count] = array ();
-			}
-			$curNb = count ( $this->personByCount [$count] );
-			$this->personByCount [$count] [$curNb] = $pid;
-		}
-		ksort ( $this->personByCount );
-	}
-	*/
 }

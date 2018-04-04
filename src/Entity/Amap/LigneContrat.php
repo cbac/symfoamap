@@ -33,7 +33,7 @@ class LigneContrat
     /**
      * @var Contrat
      *
-     * @ORM\ManyToOne(targetEntity="Contrat", inversedBy="ligne")
+     * @ORM\ManyToOne(targetEntity="Contrat", inversedBy="lignes")
      * @ORM\JoinColumn(name="contrat_id", referencedColumnName="id")
      */
     private $contrat;
