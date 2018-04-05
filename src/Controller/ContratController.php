@@ -184,37 +184,7 @@ class ContratController extends Controller {
 				'form' => $form->createView () 
 		) );
 	}
-	/**
-	 * Creates a new Contrat entity for a user.
-	 *
-	 * @Route("/contrat/add/{id}", name="contrat_add") 
-	 * 		requirements={ "id": "\d+" })
-	 * @Method({"GET", "POST"})
-	 */
-	public function addContratAction(Request $request, Personne $personne) {
-		$contrat = new Contrat ();
-		$contrat->setPersonne($personne);
-	
-		$form = $this->createForm ( 'App\Form\AddContratType', $contrat );
-		$form->handleRequest ( $request );
-	
-		if ($form->isSubmitted () && $form->isValid ()) {
-			$em = $this->getDoctrine ()->getManager ();
-			$em->persist ( $contrat );
-			$em->flush ();
-				
-			$this->addFlash ( 'notice', sprintf ( 'Contrat %d ajouté', $contrat->getId () ) );
-				
-			return $this->redirectToRoute ( 'contrat_oneperson', array (
-					'id' => $personne->getId ()
-			) );
-		}
-	
-		return $this->render ( 'contrat/new.html.twig', array (
-				'contrat' => $contrat,
-				'form' => $form->createView ()
-		) );
-	}
+
 	/**
 	 * Displays a form to edit an existing Contrat entity.
 	 *

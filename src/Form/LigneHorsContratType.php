@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
-class LigneContratType extends AbstractType
+class LigneHorsContratType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
