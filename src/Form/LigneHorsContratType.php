@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
-class AddContratType extends AbstractType
+class LigneContratType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,16 +16,7 @@ class AddContratType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    	$builder->add('personne', EntityType::class, array(
-    			'class' => 'App:Amap\Personne',
-            	'placeholder' => 'Choisir une personne',
-    			'query_builder' => function (EntityRepository $er) {
-    			return $er->createQueryBuilder('pers')
-    			->orderBy('pers.nom', 'ASC')
-    			->addOrderBy('pers.nom');
-    			}
-    			))
-    			->add('produit', EntityType::class, array(
+    	$builder->add('produit', EntityType::class, array(
     					'class' => 'App:Amap\Produit',
     					'placeholder' => 'Choisir un produit',
     					'query_builder' => function (EntityRepository $er) {
@@ -36,7 +27,7 @@ class AddContratType extends AbstractType
     					->addOrderBy('prod.poid');
     					}
     					))
-            	->add('nombre')
+            ->add('nombre')
         ;
     }
     
@@ -46,7 +37,7 @@ class AddContratType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Amap\Contrat'
+            'data_class' => 'App\Entity\Amap\LigneHorsContrat'
         ));
     }
 }

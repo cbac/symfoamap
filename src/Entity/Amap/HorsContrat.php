@@ -21,29 +21,30 @@ class HorsContrat
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
+    
     /**
-     * @var produit
+     * @var personne
      *
-     * @ORM\ManyToOne(targetEntity="Produit")
-     * @ORM\JoinColumn(name="produit_id", referencedColumnName="id")
-     */
-    private $produit;
-
-    /**
-     * @var person
-     *
-     * @ORM\ManyToOne(targetEntity="Personne")
+     * @ORM\OneToOne(targetEntity="Personne", inversedBy="contrat")
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      */
     private $personne;
-
+    
     /**
-     * @var int
+     * Lignes de ce contrat
      *
-     * @ORM\Column(name="nombre", type="integer")
+     * On définit l'association avec un orphanRemoval pour faciliter la suppression des lignes
+     *
+     * @ORM\OneToMany(targetEntity="LigneContrat",
+     * 					mappedBy="contrat", orphanRemoval=true)
+     * (Doctrine INVERSE SIDE)
      */
-    private $nombre;
+    protected $lignes;
+    
+    public function __construct()
+    {
+        $this->lignes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -55,64 +56,14 @@ class HorsContrat
         return $this->id;
     }
 
-
-
     /**
-     * Set nombre
+     * Set setPersonne
      *
-     * @param int $nombre
+     * @param Personne $person
      *
      * @return HorsContrat
      */
-    public function setNombre( $nombre)
-    {
-        $this->nombre = $nombre;
-
-        return $this;
-    }
-
-    /**
-     * Get nombre
-     *
-     * @return int
-     */
-    public function getNombre()
-    {
-        return $this->nombre;
-    }
-
-    /**
-     * Set produit
-     *
-     * @param \App\Entity\Amap\Produit $produit
-     *
-     * @return HorsContrat
-     */
-    public function setProduit(\App\Entity\Amap\Produit $produit = null)
-    {
-        $this->produit = $produit;
-
-        return $this;
-    }
-
-    /**
-     * Get produitId
-     *
-     * @return \App\Entity\Amap\Produit
-     */
-    public function getProduit()
-    {
-        return $this->produit;
-    }
-
-    /**
-     * Set personId
-     *
-     * @param \App\Entity\Amap\Personne $personId
-     *
-     * @return HorsContrat
-     */
-    public function setPersonne(\App\Entity\Amap\Personne $person = null)
+    public function setPersonne(Personne $person = null)
     {
         $this->personne = $person;
 
@@ -120,19 +71,57 @@ class HorsContrat
     }
 
     /**
-     * Get personId
+     * Get personnne
      *
-     * @return \App\Entity\Amap\Personne
+     * @return Personne
      */
     public function getPersonne()
     {
         return $this->personne;
     }
+    
     /**
      * Return HorsContrat as a string
      * @return string
      */
     function __toString(){
-    	return $this->personne->__toString().' '.$this->produit->__toString().' quantité '. $this->nombre;
+    	return $this->personne->__toString().' '.$this->lignes->__toString();
+    }
+    /**
+     * Add ligne
+     *
+     * @param LigneContrat $ligne
+     *
+     * @return Contrat
+     */
+    public function addLigne(LigneContrat $ligne)
+    {
+        $ligne->setContrat($this);
+        $this->lignes->add($ligne);
+        return $this;
+    }
+    /**
+     * Remove ligne
+     *
+     * @param LigneContrat $ligne
+     *
+     * @return LigneContrat
+     */
+    public function removeEtape(LigneContrat $ligne)
+    {
+        if($this->etapes->contains($ligne))
+        {
+            $this->etapes->removeElement($ligne);
+        }
+        return $ligne;
+    }
+    /**
+     * Get lignes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLignes()
+    {
+        return $this->lignes;
     }
 }

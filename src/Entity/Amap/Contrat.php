@@ -84,7 +84,7 @@ class Contrat
     	return $this->personne->__toString().' '.$this->produit->__toString().' quantité '. $this->nombre;
     }
     /**
-     * Add etape
+     * Add ligne
      *
      * @param LigneContrat $ligne
      *
@@ -97,7 +97,7 @@ class Contrat
         return $this;
     }
     /**
-     * Remove etape
+     * Remove ligne
      *
      * @param LigneContrat $ligne
      *
