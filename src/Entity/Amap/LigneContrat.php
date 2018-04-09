@@ -31,6 +31,13 @@ class LigneContrat
     private $produit;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="nombre", type="integer")
+     */
+    private $nombre;
+    
+    /**
      * @var Contrat
      *
      * @ORM\ManyToOne(targetEntity="Contrat", inversedBy="lignes")
@@ -71,7 +78,30 @@ class LigneContrat
     {
         return $this->produit;
     }
-
+    /**
+     * Set nombre
+     *
+     * @param int $nombre
+     *
+     * @return LigneContrat
+     */
+    public function setNombre( $nombre)
+    {
+        $this->nombre = $nombre;
+        
+        return $this;
+    }
+    
+    /**
+     * Get nombre
+     *
+     * @return int
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+    
     /**
      * Set contrat
      *
@@ -100,6 +130,6 @@ class LigneContrat
      * @return string
      */
     function __toString(){
-    	return $this->Contrat->__toString().' '.$this->produit->__toString().' quantité '. $this->nombre;
+    	return 'produit '.$this->produit->__toString().' quantité '. $this->nombre;
     }
 }

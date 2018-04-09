@@ -39,6 +39,7 @@ class Contrat
      * (Doctrine INVERSE SIDE)
      */
     protected $lignes;
+    
     public function __construct()
     {
         $this->lignes = new \Doctrine\Common\Collections\ArrayCollection();
@@ -81,7 +82,7 @@ class Contrat
      * @return string
      */
     function __toString(){
-    	return $this->personne->__toString().' '.$this->produit->__toString().' quantité '. $this->nombre;
+    	return $this->personne->__toString().' '.$this->personne->__toString();
     }
     /**
      * Add ligne
@@ -90,7 +91,7 @@ class Contrat
      *
      * @return Contrat
      */
-    public function addLigne(LigneContrat $ligne)
+    public function addLigneContrat(LigneContrat $ligne)
     {
         $ligne->setContrat($this);
         $this->lignes->add($ligne);
@@ -103,7 +104,7 @@ class Contrat
      *
      * @return LigneContrat
      */
-    public function removeEtape(LigneContrat $ligne)
+    public function removeLigneContrat(LigneContrat $ligne)
     {
         if($this->etapes->contains($ligne))
         {

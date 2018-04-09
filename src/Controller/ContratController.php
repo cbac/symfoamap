@@ -164,7 +164,7 @@ class ContratController extends Controller {
 	public function newContratAction(Request $request) {
 		$contrat = new Contrat ();
 		
-		$form = $this->createForm ( 'App\Form\ContratType', $contrat );
+		$form = $this->createForm ( 'ContratType', $contrat );
 		$form->handleRequest ( $request );
 		
 		if ($form->isSubmitted () && $form->isValid ()) {
@@ -193,7 +193,7 @@ class ContratController extends Controller {
 	 */
 	public function editContratAction(Request $request, Contrat $contrat) {
 
-		$editForm = $this->createForm ( 'App\Form\ContratType', $contrat );
+		$editForm = $this->createForm ( '\App\Form\ContratType', $contrat );
 		
 		$editForm->handleRequest ( $request );
 		

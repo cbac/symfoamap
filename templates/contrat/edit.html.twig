@@ -4,8 +4,84 @@
     <h1>Edition Contrat </h1>
 
     {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
+            {{ form_row(edit_form.personne) }}
+           <ul class="lignes" data-prototype="{{ form_widget(edit_form.lignes.vars.prototype)|e('html_attr') }}">
+            {# iterate over each existing Line and render its fields #}
+            {% for lignecontrat in edit_form.lignes %}
+                <li>{{ form_row(lignecontrat.produit) }} - {{ form_row(lignecontrat.nombre) }}</li>
+            {% endfor %}
+        </ul>
         <input type="submit" value="Save" />
     {{ form_end(edit_form) }}
 
+{% endblock %}
+{% block custompage_script %}
+<script>
+var $collectionHolder;
+
+//setup an "Ajouter une ligne" link
+var $addLineLink = $('<a href="#" class="add_line_link">Ajouter une ligne</a>');
+var $newLinkLi = $('<li></li>').append($addLineLink);
+
+jQuery(document).ready(function() {
+ // Get the ul that holds the collection of Lines
+ $collectionHolder = $('ul.lignes');
+
+ // add the "ajouter une étape" anchor and li to the tags ul
+ $collectionHolder.append($newLinkLi);
+
+ // count the current form inputs we have (e.g. 2), use that as the new
+ // index when inserting a new item (e.g. 2)
+ $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+ $addLineLink.on('click', function(e) {
+     // prevent the link from creating a "#" on the URL
+     e.preventDefault();
+
+     // add a new tag form (see next code block)
+     addLineForm($collectionHolder, $newLinkLi);
+ });
+});
+
+function addLineForm($collectionHolder, $newLinkLi) {
+ // Get the data-prototype explained earlier
+ var prototype = $collectionHolder.data('prototype');
+
+ // get the new index
+ var index = $collectionHolder.data('index');
+
+ var newForm = prototype;
+ // You need this only if you didn't set 'label' => false in your tags field in ContratType
+ // Replace '__name__label__' in the prototype's HTML to
+ // instead be a number based on how many items we have
+ // newForm = newForm.replace(/__name__label__/g, index);
+
+ // Replace '__name__' in the prototype's HTML to
+ // instead be a number based on how many items we have
+ newForm = newForm.replace(/__name__/g, index);
+
+ // increase the index with one for the next item
+ $collectionHolder.data('index', index + 1);
+
+ // Display the form in the page in an li, before the "Ajouter une étape" link li
+ var $newFormLi = $('<li></li>').append(newForm);
+ // add a delete link to the new form
+ addLineFormDeleteLink($newFormLi);
+ 
+ $newLinkLi.before($newFormLi);
+
+}
+function addLineFormDeleteLink($lineFormLi) {
+    var $removeFormA = $('<a href="#">supprimer cette ligne</a>');
+    $lineFormLi.append($removeFormA);
+
+    $removeFormA.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // remove the li for the tag form
+        $lineFormLi.remove();
+    });
+}
+</script>
 {% endblock %}

@@ -31,6 +31,13 @@ class LigneHorsContrat
     private $produit;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="nombre", type="integer")
+     */
+    private $nombre;
+    
+    /**
      * @var Contrat
      *
      * @ORM\ManyToOne(targetEntity="HorsContrat", inversedBy="lignes")
@@ -73,6 +80,30 @@ class LigneHorsContrat
     }
 
     /**
+     * Set nombre
+     *
+     * @param int $nombre
+     *
+     * @return LigneHorsContrat
+     */
+    public function setNombre( $nombre)
+    {
+        $this->nombre = $nombre;
+        
+        return $this;
+    }
+    
+    /**
+     * Get nombre
+     *
+     * @return int
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+    
+    /**
      * Set contrat
      *
      * @param \App\Entity\Amap\Contrat $contratId
@@ -100,6 +131,6 @@ class LigneHorsContrat
      * @return string
      */
     function __toString(){
-    	return $this->Contrat->__toString().' '.$this->produit->__toString().' quantité '. $this->nombre;
+    	return 'produit '.$this->produit->__toString().' quantité '. $this->nombre;
     }
 }
