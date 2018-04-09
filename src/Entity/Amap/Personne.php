@@ -53,15 +53,9 @@ class Personne
 
 	/**
 	 * @var array 
-	 * @ORM\OneToOne(targetEntity="Contrat", mappedBy="personne")
+	 * @ORM\OneToOne(targetEntity="ContratAbstract", mappedBy="personne")
 	 */
-    private $contrat;
-
-    /**
-     * @var array
-     * @ORM\OneToMany(targetEntity="HorsContrat", mappedBy="personne")
-     */
-    private $horscontrats;
+    private $contratabstract;
     
     /**
      * Get id
