@@ -17,9 +17,9 @@
           <td>{{ ligne.produit }}</td>
           <td>{{ ligne.nombre }}</td>
           <td><a href="{{ path('lignecontrat_edit', { 'id': ligne.id }) }}">modifier</a></td>
-          <td>  {{ form_start(deleteforms[index]) }}
+          <td>  {{ form_start(delete_lignes[index]) }}
                   <input type="submit" value="Delete">
-                {{ form_end(deleteforms[index]) }}
+                {{ form_end(delete_lignes[index]) }}
           </td>
          </tr>
       {% endfor %}

@@ -5,7 +5,7 @@
     <h1>Nouveau Contrat</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
+        {{ form_row(form.personne) }}
       <h3>Lignes de commande</h3>
         <ul class="lignes" data-prototype="{{ form_widget(form.lignes.vars.prototype)|e('html_attr')}}">
             {# iterate over each existing Line and render its fields #}

@@ -15,6 +15,10 @@
         <tr>
           <td>{{ contrat.personne }}</td>
           <td><a href="{{ path('contrat_edit', { 'id': contrat.id }) }}">modifier</a></td>
+           <td> {{ form_start(deleteforms[index]) }}
+                  <input type="submit" value="Delete">
+                  {{ form_end(deleteforms[index]) }}
+           </td>
          </tr>
       {% endfor %}
     </tbody>

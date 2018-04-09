@@ -120,7 +120,7 @@ class LigneContratController extends Controller {
 	 * @Route("/lignecontrat/{id}/edit", name="lignecontrat_edit")
 	 * @Method({"GET", "POST"})
 	 */
-	public function editLigneContratAction(Request $request, LigneContrat $contrat) {
+	public function editLigneContratAction(Request $request, LigneContrat $lignecontrat) {
 
 		$editForm = $this->createForm ( 'App\Form\LigneContratType', $lignecontrat );
 		

@@ -2,9 +2,15 @@
 
 {% block body %}
     <h1>Edition Contrat </h1>
-
+    
     {{ form_start(edit_form) }}
-            {{ form_row(edit_form.personne) }}
+        {{ form_errors(edit_form) }}
+        <div>
+        {{ form_label(edit_form.personne) }}
+        {{ form_errors(edit_form.personne) }}
+        {{ form_widget(edit_form.personne) }}
+        </div>
+            <h3>Lignes contrat</h3>
            <ul class="lignes" data-prototype="{{ form_widget(edit_form.lignes.vars.prototype)|e('html_attr') }}">
             {# iterate over each existing Line and render its fields #}
             {% for lignecontrat in edit_form.lignes %}

@@ -64,8 +64,8 @@ class ContratController extends Controller {
 		    $personne = $contrat->getPersonne();
 		        $cPersons [$personne->__toString ()] = array (
 		            'lignes' => $contrat->getLignes(),
-		            'id' => $person->getid(),
-		            'cheque' => $person->getCheque (),
+		            'id' => $personne->getid(),
+		            'cheque' => $personne->getCheque (),
 		        );
 		}
 
@@ -152,7 +152,8 @@ class ContratController extends Controller {
 		$deleteForm = $this->createDeleteForm ( $contrat );
 		return $this->render ( 'contrat/show.html.twig', array (
 				'contrat' => $contrat,
-				'delete_form' => $deleteForm->createView () 
+				'delete_form' => $deleteForm->createView (),
+		        'delete_lignes' => $this->createDeleteLignes($contrat)
 		) );
 	}
 	/**
@@ -164,12 +165,19 @@ class ContratController extends Controller {
 	public function newContratAction(Request $request) {
 		$contrat = new Contrat ();
 		
-		$form = $this->createForm ( 'ContratType', $contrat );
+		$form = $this->createForm ( 'App\Form\ContratType', $contrat );
 		$form->handleRequest ( $request );
 		
 		if ($form->isSubmitted () && $form->isValid ()) {
 			$em = $this->getDoctrine ()->getManager ();
 			$em->persist ( $contrat );
+			foreach($contrat->getLignes() as $ligne)
+			{
+			    $ligne->setContrat($contrat);
+			    $this->getDoctrine()->getManager()->persist($ligne);
+			    $this->addFlash ( 'notice', sprintf ( 'Ligne %d ajoutée', $ligne->getId () ) );
+			}
+
 			$em->flush ();
 			
 			$this->addFlash ( 'notice', sprintf ( 'Contrat %d ajouté', $contrat->getId () ) );
@@ -200,6 +208,11 @@ class ContratController extends Controller {
 		if ($editForm->isSubmitted () && $editForm->isValid ()) {
 			$em = $this->getDoctrine ()->getManager ();
 			$em->persist ( $contrat );
+			foreach($contrat->getLignes() as $ligne)
+			{
+			    $ligne->setContrat($contrat);
+			    $this->getDoctrine()->getManager()->persist($ligne);
+			}
 			$em->flush ();
 			
 			return $this->redirectToRoute ( 'contrat_show', array (
@@ -259,40 +272,20 @@ class ContratController extends Controller {
 	    ->setMethod ( 'GET' )->getForm ();
 	}
 	/**
-	 * Creates sorted infos for actions related to distribution : indexByProduit, indexByPersonne, indexDistrib
+	 * Creates an array of form to delete each line in a Contract.
+	 *
+	 * @param Contrat $contrat
+	 *        	The Contrat entity
+	 *
+	 * @return array
 	 */
-/*	private function getSortedInfos() {
-		$em = $this->getDoctrine ()->getManager ();
-		$this->contrats = $em->getRepository ( 'App:Amap\Contrat' )->findAll ();
-		
-//		$this->alphaPersons = $em->getRepository ( 'App:Amap\Personne' )->findAll ();
-//		$this->alphaProduits = $em->getRepository ( 'App:Amap\Produit' )->findAll ();
-		$this->personnes = $em->getRepository ( 'App:Amap\Personne' )->findById ();
-		$this->produits = $em->getRepository ( 'App:Amap\Produit' )->findById ();
-		
-		$this->contratsByPersonId = array ();
-		$curNb = 0;
-		foreach ( $this->contrats as $contrat ) {
-			$pid = $contrat->getPersonId ();
-			if (! array_key_exists ( $pid, $this->contratsByPersonId )) {
-				$this->contratsByPersonId [$pid] = array ();
-			}
-			$curNb = count ( $this->contratsByPersonId [$pid] );
-			$this->contratsByPersonId [$pid] [$curNb] = $contrat;
-		}
-		$this->personByCount = array ();
-		foreach ( $this->contratsByPersonId as $pid => $contrats ) {
-			$count = 0;
-			foreach ( $contrats as $contrat ) {
-				$count += $contrat->getNombre ();
-			}
-			if (! array_key_exists ( $count, $personByCount )) {
-				$this->personByCount [$count] = array ();
-			}
-			$curNb = count ( $this->personByCount [$count] );
-			$this->personByCount [$count] [$curNb] = $pid;
-		}
-		ksort ( $this->personByCount );
+	private function createDeleteLignes(Contrat $contrat) {
+	    $deleteforms = array();
+	    foreach ($contrat->getLignes() as $ligne) {
+	        $deleteforms[] = $this->createFormBuilder ()
+	    ->setAction ( $this->generateUrl ( 'lignecontrat_delete', array ( 'id' => $ligne->getId ()) ) )
+	    ->setMethod ( 'DELETE' )->getForm ()->createView ();
+	    }
+	    return $deleteforms;
 	}
-	*/
 }

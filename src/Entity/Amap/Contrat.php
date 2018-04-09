@@ -2,6 +2,8 @@
 
 namespace App\Entity\Amap;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -90,7 +92,7 @@ class Contrat
      * @param LigneContrat $ligne
      *
      * @return Contrat
-     */
+    
     public function addLigneContrat(LigneContrat $ligne)
     {
         $ligne->setContrat($this);
@@ -120,5 +122,15 @@ class Contrat
     public function getLignes()
     {
         return $this->lignes;
+    }
+    /**
+     * Set lignes
+     *
+     * @return Contrat
+     */
+    public function setLignes(Collection $lignes)
+    {
+            $this->lignes = $lignes;
+        return $this;
     }
 }
