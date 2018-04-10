@@ -83,37 +83,7 @@ class LigneContratController extends Controller {
 				'form' => $form->createView () 
 		) );
 	}
-	/**
-	 * Creates a new LigneContrat entity for a Contrat.
-	 *
-	 * @Route("/lignecontrat/add/{id}", name="lignecontrat_add") 
-	 * 		requirements={ "id": "\d+" })
-	 * @Method({"GET", "POST"})
-	 */
-	public function addLigneContratAction(Request $request, Contrat $contrat) {
-		$lignecontrat = new LigneContrat ();
-		$contrat->addLigne($lignecontrat);
-	
-		$form = $this->createForm ( 'App\Form\AddlignecontratType', $lignecontrat );
-		$form->handleRequest ( $request );
-	
-		if ($form->isSubmitted () && $form->isValid ()) {
-			$em = $this->getDoctrine ()->getManager ();
-			$em->persist ( $lignecontrat );
-			$em->flush ();
-				
-			$this->addFlash ( 'notice', sprintf ( 'lignecontrat %d ajouté', $contrat->getId () ) );
-				
-			return $this->redirectToRoute ( 'contrat_oneperson', array (
-					'id' => $personne->getId ()
-			) );
-		}
-	
-		return $this->render ( 'lignecontrat/new.html.twig', array (
-				'lignecontrat' => $lignecontrat,
-				'form' => $form->createView ()
-		) );
-	}
+
 	/**
 	 * Displays a form to edit an existing LigneContrat entity.
 	 *
@@ -132,13 +102,14 @@ class LigneContratController extends Controller {
 			$em->flush ();
 			
 			return $this->redirectToRoute ( 'contrat_show', array (
-					'id' => $contrat->getId () 
+					'id' => $lignecontrat->getId () 
 			) );
 		}
-		
+		$deleteform = $this->createDeleteForm ( $lignecontrat);
 		return $this->render ( 'lignecontrat/edit.html.twig', array (
 				'lignecontrat' => $lignecontrat,
-				'edit_form' => $editForm->createView ()
+				'edit_form' => $editForm->createView (),
+		        'delete_form' => $deleteform->createView()
 		) );
 	}
 	/**

@@ -1,92 +1,13 @@
 <?php
-
 namespace App\Entity\Amap;
-
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * HorsContrat
- *
- * @ORM\Table(name="amap_horscontrat")
- * @ORM\Entity(repositoryClass="App\Repository\Amap\HorsContratRepository")
- *
+ * @ORM\Entity()
  */
-class HorsContrat
+class HorsContrat extends ContratAbstract
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-    
-    /**
-     * @var personne
-     *
-     * @ORM\OneToOne(targetEntity="Personne", inversedBy="contrat")
-     * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
-     */
-    private $personne;
-    
-    /**
-     * Lignes de ce contrat
-     *
-     * On définit l'association avec un orphanRemoval pour faciliter la suppression des lignes
-     *
-     * @ORM\OneToMany(targetEntity="LigneContrat",
-     * 					mappedBy="contrat", orphanRemoval=true)
-     * (Doctrine INVERSE SIDE)
-     */
-    protected $lignes;
-    
-    public function __construct()
-    {
-        $this->lignes = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set setPersonne
-     *
-     * @param Personne $person
-     *
-     * @return HorsContrat
-     */
-    public function setPersonne(Personne $person = null)
-    {
-        $this->personne = $person;
-
-        return $this;
-    }
-
-    /**
-     * Get personnne
-     *
-     * @return Personne
-     */
-    public function getPersonne()
-    {
-        return $this->personne;
-    }
-    
-    /**
-     * Return HorsContrat as a string
-     * @return string
-     */
-    function __toString(){
-    	return $this->personne->__toString().' '.$this->lignes->__toString();
-    }
     /**
      * Add ligne
      *
@@ -94,12 +15,15 @@ class HorsContrat
      *
      * @return Contrat
      */
-    public function addLigne(LigneContrat $ligne)
+    public function addLigne(LigneAbstract $ligne)
     {
-        $ligne->setContrat($this);
-        $this->lignes->add($ligne);
-        return $this;
+        if ($ligne->getClass() == "LigneHorsContrat") {
+            return parent::addLigneContrat($ligne);
+        } else {
+            return null;
+        }
     }
+
     /**
      * Remove ligne
      *
@@ -107,21 +31,12 @@ class HorsContrat
      *
      * @return LigneContrat
      */
-    public function removeEtape(LigneContrat $ligne)
+    public function removeLigneContrat(LigneAbstract $ligne)
     {
-        if($this->etapes->contains($ligne))
-        {
-            $this->etapes->removeElement($ligne);
+        if ($ligne->getClass() == "LigneHorsContrat") {
+            return parent::removeLigneContrat($ligne);
+        } else {
+            return null;
         }
-        return $ligne;
-    }
-    /**
-     * Get lignes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getLignes()
-    {
-        return $this->lignes;
     }
 }

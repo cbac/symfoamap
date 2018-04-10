@@ -140,6 +140,12 @@ class HorsContratController extends Controller
     	if ($form->isSubmitted () && $form->isValid ()) {
     		$em = $this->getDoctrine ()->getManager ();
     		$em->persist ( $horscontrat );
+    		foreach($horscontrat->getLignes() as $ligne)
+    		{
+    		    $ligne->setContrat($horscontrat);
+    		    $this->getDoctrine()->getManager()->persist($ligne);
+    		    $this->addFlash ( 'notice', sprintf ( 'Ligne %d ajoutée', $ligne->getId () ) );
+    		}
     		$em->flush ();
     			
     		$this->addFlash ( 'notice', sprintf ( 'HorsContrat %d ajouté', $horscontrat->getId () ) );
@@ -169,6 +175,12 @@ class HorsContratController extends Controller
     	if ($editForm->isSubmitted () && $editForm->isValid ()) {
     		$em = $this->getDoctrine ()->getManager ();
     		$em->persist ( $horscontrat );
+    		foreach($horscontrat->getLignes() as $ligne)
+    		{
+    		    $ligne->setContrat($horscontrat);
+    		    $this->getDoctrine()->getManager()->persist($ligne);
+    		    $this->addFlash ( 'notice', sprintf ( 'Ligne %d ajoutée', $ligne->getId () ) );
+    		}
     		$em->flush ();
     			
     		return $this->redirectToRoute ( 'horscontrat_show', array (
@@ -227,5 +239,22 @@ class HorsContratController extends Controller
         return $this->createFormBuilder ()->setAction ( $this->generateUrl ( 'horscontrat_edit', array (
             'id' => $horscontrat->getId ()
         ) ) )->setMethod ( 'GET' )->getForm ();
+    }
+    /**
+     * Creates an array of form to delete each line in a Contract.
+     *
+     * @param Contrat $contrat
+     *        	The Contrat entity
+     *
+     * @return array
+     */
+    private function createDeleteLignes(HorsContrat $contrat) {
+        $deleteforms = array();
+        foreach ($contrat->getLignes() as $ligne) {
+            $deleteforms[] = $this->createFormBuilder ()
+            ->setAction ( $this->generateUrl ( 'lignecontrat_delete', array ( 'id' => $ligne->getId ()) ) )
+            ->setMethod ( 'DELETE' )->getForm ()->createView ();
+        }
+        return $deleteforms;
     }
 }

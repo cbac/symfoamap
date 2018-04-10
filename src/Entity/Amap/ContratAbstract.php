@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorMap({"contrat" = "Contrat", "horscontrat" = "HorsContrat"})
  */
 
-class ContratAbstract
+abstract class ContratAbstract
 {
     /**
      * @var int
@@ -83,7 +83,7 @@ class ContratAbstract
      * @return string
      */
     function __toString(){
-    	return $this->personne->__toString().' '.$this->personne->__toString();
+    	return $this->personne->__toString().' ';
     }
     /**
      * Add ligne
@@ -91,30 +91,30 @@ class ContratAbstract
      * @param LigneContrat $ligne
      *
      * @return Contrat
-    
-    public function addLigneContrat(LigneContrat $ligne)
+     */
+    public function addLigneContrat(LigneAbstract $ligne)
     {
         $ligne->setContrat($this);
         $this->lignes->add($ligne);
         return $this;
     }
-    */
+
     /**
      * Remove ligne
      *
      * @param LigneContrat $ligne
      *
      * @return LigneContrat
-     
-    public function removeLigneContrat(LigneContrat $ligne)
+     */
+    public function removeLigneContrat(LigneAbstract $ligne)
     {
-        if($this->etapes->contains($ligne))
+        if($this->lignes->contains($ligne))
         {
-            $this->etapes->removeElement($ligne);
+            $this->lignes->removeElement($ligne);
         }
         return $ligne;
     }
-    */
+  
     /**
      * Get lignes
      *

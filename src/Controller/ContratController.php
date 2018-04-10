@@ -83,9 +83,6 @@ class ContratController extends Controller {
 	 * @Method("GET")
 	 */
 	public function listOnepersonAction(Request $request, Personne $personne) {
-//		$em = $this->getDoctrine ()->getManager ();
-//		$contrats = $em->getRepository ( 'App:Amap\Contrat' )->
-//			findBy(array('personne'=>$personne->getId()));
 			$deleteviews = array();
 			$editviews = array();
 			$produitString= array();
