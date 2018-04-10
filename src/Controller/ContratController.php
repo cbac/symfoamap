@@ -16,16 +16,6 @@ use App\Form\ContratType;
  */
 class ContratController extends Controller {
 	/**
-	 * Lists routes in contrat
-	 *
-	 * 
-	 * @Method("GET")
-	 */
-	public function indexAction() {
-		return $this->render ( 'contrat/index.html.twig' );
-	}
-	
-	/**
 	 * Lists all Contrat entities.
 	 * @Route("/contrat/", name="contrat_index")
 	 * @Route("/contrat/list/", name="contrat_list")

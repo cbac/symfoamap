@@ -17,14 +17,18 @@ use App\Form\HorsContratType;
 class HorsContratController extends Controller
 {
     /**
-     * HorsContrat actions choice
-     *
+     * Lists all HorsContrat entities.
      * @Route("/horscontrat/", name="horscontrat_index")
+     * @Route("/horscontrat/list", name="horscontrat_list")
      * @Method("GET")
      */
-    public function indexAction()
+    public function listAction()
     {
-        return $this->render('horscontrat/index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        
+        $horscontrats = $em->getRepository('App:Amap\HorsContrat')->findAll();
+        
+        return $this->renderList( $horscontrats);
     }
     /**
      * Lists data constructed either in indexAction or in listAction
@@ -39,20 +43,7 @@ class HorsContratController extends Controller
     			'deleteforms' => $deleteforms
     	));
     }
-    /**
-     * Lists all HorsContrat entities.
-     *
-     * @Route("/horscontrat/list", name="horscontrat_list")
-     * @Method("GET")
-     */
-    public function listAction()
-    {
-    	$em = $this->getDoctrine()->getManager();
-    
-    	$horscontrats = $em->getRepository('App:Amap\HorsContrat')->findAll();
-    
-    	return $this->renderList( $horscontrats);
-    }
+
     /**
      * Liste les contrats par utilisateur.
      *
@@ -61,15 +52,15 @@ class HorsContratController extends Controller
      */
     public function listbypersonAction() {
     	$em = $this->getDoctrine ()->getManager ();
-    	$personsById = $em->getRepository ( 'App:Amap\Personne' )->findAll ();
-      
+    	$hcontrats = $em->getRepository ( 'App:Amap\HorsContrat' )->findAll ();
+    	
     	$hcPersons = array ();
-    	foreach ( $personsById as $person ) {
-    	    if($person->getHorsContrats()->count() > 0) {
-        		$hcPersons [$person->__toString ()] = array (
-    				'horscontrats' => $person->getHorsContrats(),
-        		);
-    	    }
+    	foreach ( $hcontrats as $hcontrat ) {
+    	    $personne = $hcontrat->getPersonne();
+    	    $hcPersons [$personne->__toString ()] = array (
+    	        'lignes' => $hcontrat->getLignes(),
+    	        'id' => $hpersonne->getid(),
+    	    );
     	}
     	ksort ( $hcPersons, SORT_STRING );
     
@@ -195,7 +186,7 @@ class HorsContratController extends Controller
     	) );
     }
     /**
-     * Deletes a HorsContrat entity.
+     * Delete a HorsContrat entity.
      *
      * @Route("/horscontrat/{id}/delete", name="horscontrat_delete")
      * @Method("DELETE")
@@ -243,7 +234,7 @@ class HorsContratController extends Controller
     /**
      * Creates an array of form to delete each line in a Contract.
      *
-     * @param Contrat $contrat
+     * @param HorsContrat $contrat
      *        	The Contrat entity
      *
      * @return array
@@ -252,7 +243,7 @@ class HorsContratController extends Controller
         $deleteforms = array();
         foreach ($contrat->getLignes() as $ligne) {
             $deleteforms[] = $this->createFormBuilder ()
-            ->setAction ( $this->generateUrl ( 'lignecontrat_delete', array ( 'id' => $ligne->getId ()) ) )
+            ->setAction ( $this->generateUrl ( 'lignehorscontrat_delete', array ( 'id' => $ligne->getId ()) ) )
             ->setMethod ( 'DELETE' )->getForm ()->createView ();
         }
         return $deleteforms;

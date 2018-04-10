@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Doctrine\ORM\EntityRepository;
 
 class HorsContratType extends AbstractType
@@ -25,6 +26,13 @@ class HorsContratType extends AbstractType
     			->addOrderBy('pers.prenom');
     			}
     			));
+    	$builder->add('lignes', CollectionType::class, array(
+    	    'entry_type' => LigneHorsContratType::class,
+    	    'entry_options' => array('label' => false),
+    	    'allow_add' => true,
+    	    'by_reference' => false,
+    	    'allow_delete' => true,
+    	));
     }
     
     /**

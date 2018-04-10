@@ -37,5 +37,59 @@ class LigneHorsContratController extends Controller {
         
         return $this->redirectToRoute ( "horscontrat_list" );
     }
-
+    /**
+     * Creates a new LigneContrat entity.
+     *
+     * @Route("/lignecontrat/new", name="lignecontrat_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newLigneHorsContratAction(Request $request) {
+        $lignecontrat = new LigneHorsContrat ();
+        
+        $form = $this->createForm ( 'App\Form\LigneHorsContratType', $lignecontrat );
+        $form->handleRequest ( $request );
+        
+        if ($form->isSubmitted () && $form->isValid ()) {
+            $em = $this->getDoctrine ()->getManager ();
+            $em->persist ( $lignecontrat );
+            $em->flush ();
+            
+            $this->addFlash ( 'notice', sprintf ( 'lignehorscontrat %d ajouté', $lignecontrat->getId () ) );
+            
+            return $this->redirectToRoute ( 'horscontrat_show', array (
+                'id' => $contrat->getId ()
+            ) );
+        }
+        
+        return $this->render ( 'lignehorscontrat/new.html.twig', array (
+            'lignehorscontrat' => $lignecontrat,
+            'form' => $form->createView ()
+        ) );
+    }
+    /**
+     * Creates a form to delete a LigneContrat entity.
+     *
+     * @param LigneHorsContrat $lignecontrat
+     *        	The LigneContrat entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(LigneHorsContrat $lignecontrat) {
+        return $this->createFormBuilder ()
+        ->setAction ( $this->generateUrl ( 'lignehorscontrat_delete', array ( 'id' => $lignecontrat->getId ()) ) )
+        ->setMethod ( 'DELETE' )->getForm ();
+    }
+    /**
+     * Creates a form to edit a LigneContrat entity.
+     *
+     * @param LigneHorsContrat $lignecontrat
+     *        	The lignecontrat entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(LigneHorsContrat $lignecontrat) {
+        return $this->createFormBuilder ()
+        ->setAction ( $this->generateUrl ( 'lignehorscontrat_edit', array ( 'id' => $lignecontrat->getId ()) ) )
+        ->setMethod ( 'GET' )->getForm ();
+    }
 }

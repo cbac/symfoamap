@@ -50,13 +50,9 @@ class Personne
      * @ORM\Column(name="cheque", type="float", nullable=true)
      */
     private $cheque;
-
-	/**
-	 * @var array 
-	 * @ORM\OneToOne(targetEntity="ContratAbstract", mappedBy="personne")
-	 */
-    private $contratabstract;
     
+    private $contratabstract;
+   
     /**
      * Get id
      *
@@ -150,50 +146,47 @@ class Personne
      */
     public function __construct()
     {
-        $this->contrats = new ArrayCollection();
-        $this->horscontrats = new ArrayCollection();
+
     }
 
     /**
-     * Add contrat
+     * Set contrat
      *
      * @param \App\Entity\Amap\Contrat $contrat
      *
      * @return Personne
      */
-    public function addContrat(\App\Entity\Amap\Contrat $contrat)
+    public function setContrat(\App\Entity\Amap\Contrat $contrat)
     {
-        $this->contrats->add($contrat);
-
+        $this->contratabstract = $contrat;
         return $this;
     }
-
     /**
-     * Remove contrat
+     * Get contrat
+     *
+     * @return Contrat
+     */
+    public function getContrat()
+    {
+        return $this->contratabstract;
+    }
+    /**
+     * A contrat
      *
      * @param \App\Entity\Amap\Contrat $contrat
      */
-    public function removeContrat(\App\Entity\Amap\Contrat $contrat)
+    public function setHorsContrat(\App\Entity\Amap\HorsContrat $contrat)
     {
-        $this->contrats->removeElement($contrat);
+        $this->contratabstract = $contrat;
     }
 
     /**
-     * Get contrats
+     * Get horscontrat
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getContrats()
+    public function getHorsContrat()
     {
-        return $this->contrats;
-    }
-    /**
-     * Get horscontrats
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getHorsContrats()
-    {
-        return $this->horscontrats;
+        return $this->contratabstract;
     }
 }
