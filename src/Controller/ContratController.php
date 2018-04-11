@@ -6,7 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Amap\Contrat;
-use App\Entity\Amap\ContratAbstract;
+use App\Entity\Amap\AbstractContrat;
 use App\Entity\Amap\Personne;
 use App\Entity\Amap\Produit;
 use App\Form\ContratType;
@@ -42,7 +42,7 @@ class ContratController extends AbstractContratController
         $em = $this->getDoctrine()->getManager();
         $contrats = $em->getRepository('App:Amap\Contrat')->findAll();
         
-        return $this->renderListByPerson($hcontrats,'Contrats');
+        return $this->renderListByPerson($contrats, Contrat::title);
     }
 
     /**
@@ -88,7 +88,7 @@ class ContratController extends AbstractContratController
     {
         $em = $this->getDoctrine()->getManager();
         $contrats = $em->getRepository('App:Amap\LigneContrat')->findAll();
-        return $this->renderListByProduit($contrats,'Contrats');
+        return $this->renderListByProduit($contrats,Contrat::title);
     }
 
     /**
@@ -99,9 +99,9 @@ class ContratController extends AbstractContratController
      * })
      * @Method("GET")
      */
-    public function showAction(Request $request, ContratAbstract $contrat)
+    public function showAction(Request $request, AbstractContrat $contrat)
     {
-        return $this->renderShow($contrat, 'contrat', 'Contrat');
+        return $this->renderShow($contrat, Contrat::path, Contrat::title);
     }
 
     /**
@@ -132,13 +132,13 @@ class ContratController extends AbstractContratController
             
             $this->addFlash('notice', sprintf('Contrat %d ajouté', $contrat->getId()));
             
-            return $this->redirectToRoute('contrat_show', array(
+            return $this->redirectToRoute(Contrat::path.'_show', array(
                 'id' => $contrat->getId()
             ));
         }
         
         return $this->render('contrat/new.html.twig', array(
-            'titre' => 'Contrat',
+            'titre' => Contrat::title,
             'contrat' => $contrat,
             'form' => $form->createView()
         ));
@@ -150,11 +150,11 @@ class ContratController extends AbstractContratController
      * @Route("/contrat/{id}/edit", name="contrat_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, ContratAbstract $contrat)
+    public function editAction(Request $request, AbstractContrat $contrat)
     {
         $editForm = $this->createForm('\App\Form\ContratType', $contrat);
         $editForm->handleRequest($request);
-        return $this->renderEdit($contrat, $editForm, 'contrat', 'Contrat');
+        return $this->renderEdit($editForm, $contrat, Contrat::path, Contrat::title);
     }
 
     /**
@@ -163,11 +163,11 @@ class ContratController extends AbstractContratController
      * @Route("/contrat/{id}/delete", name="contrat_delete")
      * @Method({"GET","DELETE"})
      */
-    public function deleteAction(Request $request, ContratAbstract $contrat)
+    public function deleteAction(Request $request, AbstractContrat $contrat)
     {
-        $form = $this->createDeleteForm($contrat);
+        $form = $this->createDeleteForm($contrat, Contrat::path);
         $form->handleRequest($request);
-        return $this->renderDelete($contrat, $form, 'contrat', 'Contrat');
+        return $this->renderDelete($contrat, $form, Contrat::path, Contrat::title);
     }
 
     /**

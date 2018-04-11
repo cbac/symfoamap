@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Amap\HorsContrat;
 use App\Entity\Amap\Personne;
 use App\Form\HorsContratType;
-use App\Entity\Amap\ContratAbstract;
+use App\Entity\Amap\AbstractContrat;
 
 /**
  * HorsContrat controller.
@@ -92,11 +92,11 @@ class HorsContratController extends AbstractContratController
      * @Route("/horscontrat/{id}/edit", name="horscontrat_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, ContratAbstract $contrat)
+    public function editAction(Request $request, AbstractContrat $contrat)
     {
         $editForm = $this->createForm('App\Form\HorsContratType', $contrat);
         $editForm->handleRequest($request);
-        return $this->renderEdit($contrat, $editForm, HorsContrat::path, HorsContrat::title);
+        return $this->renderEdit($editForm, $contrat, HorsContrat::path, HorsContrat::title);
     }
 
     /**
@@ -105,7 +105,7 @@ class HorsContratController extends AbstractContratController
      * @Route("/horscontrat/{id}/delete", name="horscontrat_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, ContratAbstract $contrat)
+    public function deleteAction(Request $request, AbstractContrat $contrat)
     {
         $form = $this->createDeleteForm($contrat);
         $form->handleRequest($request);       

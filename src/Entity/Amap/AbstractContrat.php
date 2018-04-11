@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorMap({"contrat" = "Contrat", "horscontrat" = "HorsContrat"})
  */
 
-abstract class ContratAbstract
+abstract class AbstractContrat
 {
     /**
      * @var int

@@ -8,7 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  */
 
-class LigneContrat extends LigneAbstract
-{
+class LigneContrat extends AbstractLigne
 
+{
+    public const path = 'lignecontrat';
+    public const title = 'Ligne Contrat';
 }

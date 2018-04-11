@@ -149,11 +149,14 @@ abstract class AbstractContratController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($contrat);
+            $this->addFlash('notice', $titre.' ' . $contrat . ' persisté');
+            
             foreach ($contrat->getLignes() as $ligne) {
                 $ligne->setContrat($contrat);
                 $this->getDoctrine()
                     ->getManager()
                     ->persist($ligne);
+                $this->addFlash('notice', $titre.' ' . $ligne . ' persistée');
             }
             $em->flush();
             

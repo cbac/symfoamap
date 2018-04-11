@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorMap({"lignecontrat" = "LigneContrat", "lignehorscontrat" = "LigneHorsContrat"})
  */
 
-abstract class LigneAbstract
+abstract class AbstractLigne
 {
     /**
      * @var int
@@ -129,6 +129,6 @@ abstract class LigneAbstract
      * @return string
      */
     function __toString(){
-    	return 'produit '.$this->produit->__toString().' quantité '. $this->nombre;
+    	return $contrat::title.' '. $contrat.getId(). ' produit '.$this->produit->__toString().' quantité '. $this->nombre;
     }
 }
