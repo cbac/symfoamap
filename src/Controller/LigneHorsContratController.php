@@ -67,6 +67,35 @@ class LigneHorsContratController extends Controller {
         ) );
     }
     /**
+     * Displays a form to edit an existing LigneHorsContrat entity.
+     *
+     * @Route("/lignehorscontrat/{id}/edit", name="lignehorscontrat_edit")
+     * @Method({"GET", "POST"})
+     */
+    public function editLigneContratAction(Request $request, LigneHorsContrat $lignecontrat) {
+        
+        $editForm = $this->createForm ( 'App\Form\LigneHorsContratType', $lignecontrat );
+        
+        $editForm->handleRequest ( $request );
+        
+        if ($editForm->isSubmitted () && $editForm->isValid ()) {
+            $em = $this->getDoctrine ()->getManager ();
+            $em->persist ( $lignecontrat );
+            $em->flush ();
+            
+            return $this->redirectToRoute ( 'lignehorscontrat_show', array (
+                'id' => $lignecontrat->getId ()
+            ) );
+        }
+        $deleteform = $this->createDeleteForm ( $lignecontrat);
+        return $this->render ( 'lignecontrat/edit.html.twig', array (
+            'titre' => 'Ligne Hors Contrat',
+            'lignecontrat' => $lignecontrat,
+            'edit_form' => $editForm->createView (),
+            'delete_form' => $deleteform->createView()
+        ) );
+    }
+    /**
      * Creates a form to delete a LigneContrat entity.
      *
      * @param LigneHorsContrat $lignecontrat

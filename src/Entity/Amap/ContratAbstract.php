@@ -26,7 +26,7 @@ abstract class ContratAbstract
     /**
      * @var personne
      *
-     * @ORM\OneToOne(targetEntity="Personne", inversedBy="contratabstract")
+     * @ORM\ManyToOne(targetEntity="Personne", inversedBy="contratabstract")
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      */
     private $personne;

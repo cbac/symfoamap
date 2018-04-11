@@ -2,7 +2,7 @@
 
 {% block body %}
 <div>
-<h1>Contrat</h1>
+<h1>{{ titre }}</h1>
 <p>Personne : {{ contrat.personne }} </p>
 <table class="table table-bordered" >
    <thead>
@@ -16,7 +16,9 @@
         <tr>
           <td>{{ ligne.produit }}</td>
           <td>{{ ligne.nombre }}</td>
-          <td><a href="{{ path('lignecontrat_edit', { 'id': ligne.id }) }}">modifier</a></td>
+          <td>  {{ form_start(edit_lignes[index]) }}
+                  <input type="submit" value="Edit">
+                {{ form_end(edit_lignes[index]) }}</td>
           <td>  {{ form_start(delete_lignes[index]) }}
                   <input type="submit" value="Delete">
                 {{ form_end(delete_lignes[index]) }}

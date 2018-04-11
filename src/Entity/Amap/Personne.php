@@ -50,7 +50,12 @@ class Personne
      * @ORM\Column(name="cheque", type="float", nullable=true)
      */
     private $cheque;
-    
+    /**
+     * @var personne
+     *
+     * @ORM\OneToMany(targetEntity="ContratAbstract", mappedBy="personne")
+     * @ORM\JoinColumn(name="contrat_id", referencedColumnName="id")
+     */
     private $contratabstract;
    
     /**
@@ -146,7 +151,7 @@ class Personne
      */
     public function __construct()
     {
-
+        $this->contratabstract =    new ArrayCollection();
     }
 
     /**
