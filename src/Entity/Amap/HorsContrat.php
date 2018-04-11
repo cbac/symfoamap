@@ -7,7 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class HorsContrat extends ContratAbstract
 {
-
+    public const  path ='horscontrat';
+    public const  title = 'Hors Contrat';
+    
     /**
      * Add ligne
      *

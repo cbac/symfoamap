@@ -10,6 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Contrat extends ContratAbstract
 {
+    public const path = 'contrat';
+    public const title = 'Contrat';
+    
     /**
      * Add ligne
      *
