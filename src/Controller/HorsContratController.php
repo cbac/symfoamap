@@ -29,7 +29,7 @@ class HorsContratController extends AbstractContratController
         
         $horscontrats = $em->getRepository('App:Amap\HorsContrat')->findAll();
         
-        return $this->renderList($horscontrats, HorsContrat::path);
+        return $this->renderList($horscontrats, HorsContrat::path, HorsContrat::title);
     }
 
     /**

@@ -28,7 +28,7 @@ class ContratController extends AbstractContratController
     {
         $em = $this->getDoctrine()->getManager();
         $contrats = $em->getRepository('App:Amap\Contrat')->findAll();
-        return $this->renderList($contrats, 'contrat');
+        return $this->renderList($contrats, Contrat::path, Contrat::title);
     }
 
     /**

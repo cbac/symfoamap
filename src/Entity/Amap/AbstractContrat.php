@@ -35,7 +35,7 @@ abstract class AbstractContrat
      *
      * On définit l'association avec un orphanRemoval pour faciliter la suppression des lignes
      *
-     * @ORM\OneToMany(targetEntity="LigneAbstract",
+     * @ORM\OneToMany(targetEntity="AbstractLigne",
      * 					mappedBy="contrat", orphanRemoval=true)
      * (Doctrine INVERSE SIDE)
      */
@@ -92,7 +92,7 @@ abstract class AbstractContrat
      *
      * @return Contrat
      */
-    public function addLigneContrat(LigneAbstract $ligne)
+    public function addLigneContrat(AbstractLigne $ligne)
     {
         $ligne->setContrat($this);
         $this->lignes->add($ligne);
@@ -106,7 +106,7 @@ abstract class AbstractContrat
      *
      * @return LigneContrat
      */
-    public function removeLigneContrat(LigneAbstract $ligne)
+    public function removeLigneContrat(AbstractLigne $ligne)
     {
         if($this->lignes->contains($ligne))
         {

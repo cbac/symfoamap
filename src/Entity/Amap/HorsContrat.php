@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
  * HorsContrat
  * @ORM\Entity()
  */
-class HorsContrat extends ContratAbstract
+class HorsContrat extends AbstractContrat
 {
     public const  path ='horscontrat';
     public const  title = 'Hors Contrat';
@@ -17,7 +17,7 @@ class HorsContrat extends ContratAbstract
      *
      * @return Contrat
      */
-    public function addLigne(LigneAbstract $ligne)
+    public function addLigne(AbstractLigne $ligne)
     {
         if ($ligne->getClass() == "LigneHorsContrat") {
             return parent::addLigneContrat($ligne);
@@ -33,7 +33,7 @@ class HorsContrat extends ContratAbstract
      *
      * @return LigneContrat
      */
-    public function removeLigneContrat(LigneAbstract $ligne)
+    public function removeLigneContrat(AbstractLigne $ligne)
     {
         if ($ligne->getClass() == "LigneHorsContrat") {
             return parent::removeLigneContrat($ligne);

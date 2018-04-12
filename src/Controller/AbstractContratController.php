@@ -9,7 +9,7 @@ use App\Entity\Amap\Contrat;
 use App\Entity\Amap\Personne;
 use App\Entity\Amap\Produit;
 use App\Form\ContratType;
-use App\Entity\Amap\ContratAbstract;
+use App\Entity\Amap\AbstractContrat;
 
 /**
  * Contrat controller.
@@ -23,7 +23,7 @@ abstract class AbstractContratController extends Controller
      * Render data constructed for listAction
      * used in derived classes
      */
-    protected function renderList($contrats, $path)
+    protected function renderList($contrats, $path, $titre)
     {
         $deleteforms = array();
         $editforms = array();
@@ -32,7 +32,7 @@ abstract class AbstractContratController extends Controller
             $editforms[] = $this->createEditForm($contrat, $path)->createView();
         }
         return $this->render('contrat/list.html.twig', array(
-            'titre' => 'Contrats',
+            'titre' => $titre,
             'path_edit' => $path . '_edit',
             'path_new' => $path . '_new',
             'contrats' => $contrats,
@@ -93,9 +93,9 @@ abstract class AbstractContratController extends Controller
     }
 
     /**
-     * Displays a ContratAbstract entity for showAction
+     * Displays a AbstractContrat entity for showAction
      */
-    protected function renderShow(ContratAbstract $contrat, $path, $titre)
+    protected function renderShow(AbstractContrat $contrat, $path, $titre)
     {
         $deleteForm = $this->createDeleteForm($contrat, $path);
         $editForm = $this->createEditForm($contrat, $path);
@@ -115,7 +115,7 @@ abstract class AbstractContratController extends Controller
     /**
      * Routine for newAction
      */
-    protected function renderNew(ContratAbstract $contrat, $form, $path, $titre)
+    protected function renderNew(AbstractContrat $contrat, $form, $path, $titre)
     {
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -142,9 +142,9 @@ abstract class AbstractContratController extends Controller
             'form' => $form->createView()
         ));
     }
-    abstract public function editAction(Request $request, ContratAbstract $contrat);
+    abstract public function editAction(Request $request, AbstractContrat $contrat);
 
-    protected function renderEdit(ContratAbstract $contrat, $form, $path, $titre)
+    protected function renderEdit(AbstractContrat $contrat, $form, $path, $titre)
     {
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -170,9 +170,9 @@ abstract class AbstractContratController extends Controller
             'edit_form' => $form->createView()
         ));
     }
-    public abstract function deleteAction(Request $request, ContratAbstract $contrat);
+    public abstract function deleteAction(Request $request, AbstractContrat $contrat);
     
-    protected function renderdelete($form, ContratAbstract $contrat, $path, $titre)
+    protected function renderdelete($form, AbstractContrat $contrat, $path, $titre)
     {
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -187,12 +187,12 @@ abstract class AbstractContratController extends Controller
     /**
      * Creates a form to delete a Contrat or HorsContratentity.
      *
-     * @param ContratAbstract $contrat
+     * @param AbstractContrat $contrat
      *            The Contrat entity
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    protected function createDeleteForm(ContratAbstract $contrat, $path)
+    protected function createDeleteForm(AbstractContrat $contrat, $path)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl($path . '_delete', array(
@@ -205,12 +205,12 @@ abstract class AbstractContratController extends Controller
     /**
      * Creates a form to edit a Contrat entity.
      *
-     * @param ContratAbstract $contrat
+     * @param AbstractContrat $contrat
      *            The Contrat entity
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    protected function createEditForm(ContratAbstract $contrat, $path)
+    protected function createEditForm(AbstractContrat $contrat, $path)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl($path . '_edit', array(
@@ -223,12 +223,12 @@ abstract class AbstractContratController extends Controller
     /**
      * Creates an array of form to delete each line in a Contract.
      *
-     * @param ContratAbstract $contrat
+     * @param AbstractContrat $contrat
      *            The Contrat entity
      *            
      * @return array
      */
-    protected function createDeleteLignes(ContratAbstract $contrat, $path)
+    protected function createDeleteLignes(AbstractContrat $contrat, $path)
     {
         $deleteforms = array();
         foreach ($contrat->getLignes() as $ligne) {
@@ -246,12 +246,12 @@ abstract class AbstractContratController extends Controller
     /**
      * Creates an array of form to edit each line in a or HorsContrat Contract.
      *
-     * @param ContratAbstract $contrat
+     * @param AbstractContrat $contrat
      *            The Contrat entity
      *            
      * @return array
      */
-    protected function createEditLignes(ContratAbstract $contrat, $path)
+    protected function createEditLignes(AbstractContrat $contrat, $path)
     {
         $editforms = array();
         foreach ($contrat->getLignes() as $ligne) {

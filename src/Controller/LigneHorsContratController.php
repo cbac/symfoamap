@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Amap\AbstractLigne;
 use App\Entity\Amap\Contrat;
 use App\Entity\Amap\Personne;
 use App\Entity\Amap\Produit;
@@ -15,15 +16,41 @@ use App\Entity\Amap\LigneHorsContrat;
 /**
  * Contrat controller.
  */
-class LigneHorsContratController extends Controller {
+class LigneHorsContratController extends AbstractLigneContratController {
 
+    /**
+     * Lists all Lignes entities.
+     *
+     * @Route("/lignehorscontrat/", name="lignehc_index")
+     * @Route("/lignehorscontrat/list/", name="lignehc_list")
+     * @Method("GET")
+     */
+    public function listAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $lignecontrats = $em->getRepository('App:Amap\LigneHorsContrat')->findAll();
+        return $this->renderList($lignecontrats, LigneHorsContrat::path);
+    }
+    /**
+     * Finds and displays a LigneContrat entity.
+     *
+     * @Route("/lignehorscontrat/{id}", name="lignehc_show", requirements={
+     * "id": "\d+"
+     * })
+     * @Method("GET")
+     */
+    public function showAction(Request $request, AbstractLigne $lignecontrat)
+    {
+        return $this->renderShow($lignecontrat, LigneHorsContrat::path, LigneHorsContrat::title);
+        
+    }
     /**
      * Deletes a LigneHorsContrat entity.
      *
      * @Route("/lignehorscontrat/{id}/delete", name="lignehorscontrat_delete")
      * @Method({"GET","DELETE"})
      */
-    public function deleteLigneContratAction(Request $request, LigneHorsContrat $ligne) {
+    public function deleteLigneAction(Request $request, LigneHorsContrat $ligne) {
         $form = $this->createDeleteForm ( $ligne);
         $form->handleRequest ( $request );
         
@@ -43,7 +70,7 @@ class LigneHorsContratController extends Controller {
      * @Route("/lignecontrat/new", name="lignecontrat_new")
      * @Method({"GET", "POST"})
      */
-    public function newLigneHorsContratAction(Request $request) {
+    public function newLigneAction(Request $request) {
         $lignecontrat = new LigneHorsContrat ();
         
         $form = $this->createForm ( 'App\Form\LigneHorsContratType', $lignecontrat );
@@ -72,7 +99,7 @@ class LigneHorsContratController extends Controller {
      * @Route("/lignehorscontrat/{id}/edit", name="lignehorscontrat_edit")
      * @Method({"GET", "POST"})
      */
-    public function editLigneContratAction(Request $request, LigneHorsContrat $lignecontrat) {
+    public function editLigneAction(Request $request, LigneHorsContrat $lignecontrat) {
         
         $editForm = $this->createForm ( 'App\Form\LigneHorsContratType', $lignecontrat );
         

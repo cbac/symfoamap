@@ -26,7 +26,6 @@ class PersonneController extends Controller
         $query = $em->createQuery(
         		'SELECT p
     FROM App:Amap\Personne p
-    WHERE p.cheque > 0
     ORDER BY p.nom ASC'
         		);
 
@@ -48,7 +47,7 @@ class PersonneController extends Controller
     	));
     }
     /**
-     * Lists Personne with no value in cheque entities.
+     * Lists Personne with no contrat.
      *
      * @Route("/personne/sanscontrat", name="personne_sanscontrat")
      * @Method("GET")
@@ -59,7 +58,6 @@ class PersonneController extends Controller
     	$query = $em->createQuery(
     			'SELECT p
     FROM App:Amap\Personne p
-    WHERE p.cheque = 0 
     ORDER BY p.nom ASC'
     			);
         return $this->renderList($query);

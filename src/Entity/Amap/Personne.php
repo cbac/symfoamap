@@ -44,16 +44,11 @@ class Personne
      */
     private $prenom;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="cheque", type="float", nullable=true)
-     */
-    private $cheque;
+
     /**
      * @var personne
      *
-     * @ORM\OneToMany(targetEntity="ContratAbstract", mappedBy="personne")
+     * @ORM\OneToMany(targetEntity="AbstractContrat", mappedBy="personne")
      * @ORM\JoinColumn(name="contrat_id", referencedColumnName="id")
      */
     private $contratabstract;
@@ -116,29 +111,7 @@ class Personne
         return $this->prenom;
     }
 
-    /**
-     * Set cheque
-     *
-     * @param float $cheque
-     *
-     * @return Personne
-     */
-    public function setCheque($cheque)
-    {
-        $this->cheque = $cheque;
 
-        return $this;
-    }
-
-    /**
-     * Get cheque
-     *
-     * @return float
-     */
-    public function getCheque()
-    {
-        return $this->cheque;
-    }
     /**
      * Return personne as a string
      * @return string

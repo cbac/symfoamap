@@ -37,9 +37,9 @@ abstract class AbstractLigne
     private $nombre;
     
     /**
-     * @var ContratAbstract
+     * @var AbstractContrat
      *
-     * @ORM\ManyToOne(targetEntity="ContratAbstract", inversedBy="lignes")
+     * @ORM\ManyToOne(targetEntity="AbstractContrat", inversedBy="lignes")
      * @ORM\JoinColumn(name="contrat_id", referencedColumnName="id")
      */
     private $contrat;
@@ -104,11 +104,11 @@ abstract class AbstractLigne
     /**
      * Set contrat
      *
-     * @param \App\Entity\Amap\ContratAbstract $contrat
+     * @param \App\Entity\Amap\AbstractContrat $contrat
      *
      * @return LigneContrat
      */
-    public function setContrat(\App\Entity\Amap\ContratAbstract $contrat = null)
+    public function setContrat(\App\Entity\Amap\AbstractContrat $contrat = null)
     {
         $this->contrat = $contrat;
 
@@ -118,7 +118,7 @@ abstract class AbstractLigne
     /**
      * Get contrat
      *
-     * @return \App\Entity\Amap\ContratAbstract
+     * @return \App\Entity\Amap\AbstractContrat
      */
     public function getContrat()
     {

@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Contrats</h1>
+    <h1> {{ titre }}</h1>
 <div class="col-md-6">
- <p><a href="{{ path('contrat_new') }}">Ajout nouveau contrat</a></p>
+ <p><a href="{{ path( path_new ) }}">Ajout nouveau contrat</a></p>
  <table class="table table-bordered" >
    <thead>
      <tr>

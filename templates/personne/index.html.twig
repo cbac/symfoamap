@@ -8,7 +8,6 @@
             <tr>
                  <th>Nom</th>
                 <th>Prenom</th>
-                <th>chéque</th>
             </tr>
         </thead>
         <tbody>
@@ -16,13 +15,6 @@
             <tr>
                 <td>{{ personne.nom }}</td>
                 <td>{{ personne.prenom }}</td>
-				<td>
-                {% if personne.cheque > 0 %}
-					{{ personne.cheque }}
-				{% else %}
-					&nbsp;
-				{% endif %}
-				</td>
                 <td><a href="{{ path('personne_edit', { 'id': personne.id }) }}">modifier</a></td>
 				 <td> {{ form_start(deleteforms[index]) }}
         				<input type="submit" value="Delete">

@@ -25,20 +25,24 @@ abstract class AbstractLigneContratController extends Controller
         }
         return $this->render('lignecontrat/list.html.twig', array(
             'lignecontrats' => $lignecontrats,
+            'titre' => $lignecontrat::title,
+            'path' => $lignecontrat::path,
             'deleteforms' => $deleteforms
         ));
     }
     abstract public function showAction(Request $request, AbstractLigne $ligne);
-    protected function renderShow(AbstractLigne $ligne, string $path){
+    protected function renderShow(AbstractLigne $ligne, string $path, string $titre){
         $deleteForm = $this->createDeleteForm($ligne,$path);
         return $this->render('lignecontrat/show.html.twig', array(
             'lignecontrat' => $ligne,
+            'path' => $path,
+            'titre' => $titre,
             'delete_form' => $deleteForm->createView()
         ));
     }
     abstract public function newLigneAction(Request $request);
 
-    protected function renderNew(Form $form, AbstractLigne $ligne)
+    protected function renderNew(Form $form, AbstractLigne $ligne, string $path, string $titre)
     {
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -59,7 +63,7 @@ abstract class AbstractLigneContratController extends Controller
     }
     abstract public function editLigneAction(Request $request, AbstractLigne $lignecontrat);
 
-    protected function renderEdit(Form $editform, AbstractLigne $ligne)
+    protected function renderEdit(Form $editform, AbstractLigne $ligne, string $path, string $titre)
     {
         if ($editform->isSubmitted() && $editform->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -86,7 +90,7 @@ abstract class AbstractLigneContratController extends Controller
      * @Method({"GET","DELETE"})
      */
     abstract public function deleteLigneAction(Request $request, AbstractLigne $ligne);
-    protected function renderDelete(Form $form, AbstractLigne $ligne)
+    protected function renderDelete(Form $form, AbstractLigne $ligne,  string $path, string $titre)
     {
        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();

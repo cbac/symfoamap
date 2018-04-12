@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1> {{ titre }}</h1>
+
+    Produit : {{ ligne.produit }} 
+    Quantité : {{ ligne.count }}
+
+    {{ form_start(delete_form) }}
+        <input type="submit" value="Delete">
+    {{ form_end(delete_form) }}
+
+{% endblock %}

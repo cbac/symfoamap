@@ -8,19 +8,47 @@ use Doctrine\ORM\Mapping as ORM;
  * Contrat
  * @ORM\Entity()
  */
-class Contrat extends ContratAbstract
+class Contrat extends AbstractContrat
 {
     public const path = 'contrat';
     public const title = 'Contrat';
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="cheque", type="float", nullable=true)
+     */
+    private $cheque;
+    /**
+     * Set cheque
+     *
+     * @param float $cheque
+     *
+     * @return Personne
+     */
+    public function setCheque($cheque)
+    {
+        $this->cheque = $cheque;
+        
+        return $this;
+    }
     
+    /**
+     * Get cheque
+     *
+     * @return float
+     */
+    public function getCheque()
+    {
+        return $this->cheque;
+    }
     /**
      * Add ligne
      *
-     * @param LigneContrat $ligne
+     * @param AbstractLigne $ligne
      *
      * @return Contrat
      */
-    public function addLigne(LigneAbstract $ligne)
+    public function addLigne(AbstractLigne $ligne)
     {
         if ($ligne->getClass() == "LigneContrat") {
             return parent::addLigneContrat($ligne);
@@ -32,11 +60,11 @@ class Contrat extends ContratAbstract
     /**
      * Remove ligne
      *
-     * @param LigneContrat $ligne
+     * @param AbstractLigne $ligne
      *
-     * @return LigneContrat
+     * @return AbstractLigne
      */
-    public function removeLigneContrat(LigneAbstract $ligne)
+    public function removeLigneContrat(AbstractLigne $ligne)
     {
         if ($ligne->getClass() == "LigneContrat") {
             return parent::removeLigneContrat($ligne);

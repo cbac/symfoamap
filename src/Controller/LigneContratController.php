@@ -11,7 +11,7 @@ use App\Entity\Amap\LigneContrat;
 /**
  * LigneContrat controller.
  */
-class LigneContratController extends Controller
+class LigneContratController extends AbstractLigneContratController
 {
     /**
      * Lists all Lignes entities.
@@ -36,7 +36,7 @@ class LigneContratController extends Controller
      */
     public function showAction(Request $request, AbstractLigne $lignecontrat)
     {
-        return $this->renderShow($lignecontrat, LigneContrat::path);
+        return $this->renderShow($lignecontrat, LigneContrat::path, LigneContrat::title);
         
     }
     /**
@@ -51,7 +51,7 @@ class LigneContratController extends Controller
         
         $form = $this->createForm('App\Form\LigneContratType', $lignecontrat);
         $form->handleRequest($request);
-        return $this->renderNew($request,$form,LigneContrat::path);
+        return $this->renderNew($request,$form,LigneContrat::path, LigneContrat::title);
     }
 
     /**
@@ -65,7 +65,7 @@ class LigneContratController extends Controller
         $editForm = $this->createForm('App\Form\LigneContratType', $ligne);
         
         $editForm->handleRequest($request);
-        return $this->renderEdit($editForm, $ligne, LigneContrat::path);
+        return $this->renderEdit($editForm, $ligne, LigneContrat::path, LigneContrat::title);
     }
 
     /**
@@ -74,7 +74,7 @@ class LigneContratController extends Controller
      * @Route("/lignecontrat/{id}/delete", name="lignecontrat_delete")
      * @Method({"GET","DELETE"})
      */
-    public function deleteLigneContratAction(Request $request, LigneContrat $lignecontrat)
+    public function deleteLigneAction(Request $request, LigneContrat $lignecontrat)
     {
         $form = $this->createDeleteForm($lignecontrat);
         $form->handleRequest($request);
