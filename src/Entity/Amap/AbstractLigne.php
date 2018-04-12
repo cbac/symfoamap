@@ -129,6 +129,6 @@ abstract class AbstractLigne
      * @return string
      */
     function __toString(){
-    	return $contrat::title.' '. $contrat.getId(). ' produit '.$this->produit->__toString().' quantité '. $this->nombre;
+    	return $this::title.' '. $this->id. ' produit '.$this->produit->__toString().' quantité '. $this->nombre;
     }
 }

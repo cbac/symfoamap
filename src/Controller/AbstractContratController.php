@@ -2,13 +2,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Amap\Contrat;
-use App\Entity\Amap\Personne;
-use App\Entity\Amap\Produit;
-use App\Form\ContratType;
 use App\Entity\Amap\AbstractContrat;
 
 /**
@@ -23,18 +17,18 @@ abstract class AbstractContratController extends Controller
      * Render data constructed for listAction
      * used in derived classes
      */
-    protected function renderList($contrats, $path, $titre)
+    protected function renderList($contrats, AbstractContrat $ctype)
     {
         $deleteforms = array();
         $editforms = array();
         foreach ($contrats as $contrat) {
-            $deleteforms[] = $this->createDeleteForm($contrat, $path)->createView();
-            $editforms[] = $this->createEditForm($contrat, $path)->createView();
+            $deleteforms[] = $this->createDeleteForm($contrat)->createView();
+            $editforms[] = $this->createEditForm($contrat)->createView();
         }
         return $this->render('contrat/list.html.twig', array(
-            'titre' => $titre,
-            'path_edit' => $path . '_edit',
-            'path_new' => $path . '_new',
+            'titre' => $ctype::title,
+            'path_edit' => $ctype::path . '_edit',
+            'path_new' => $ctype::path . '_new',
             'contrats' => $contrats,
             'deleteforms' => $deleteforms,
             'editforms' => $editforms
@@ -44,7 +38,7 @@ abstract class AbstractContratController extends Controller
     /**
      * Render data constructed for lisbypersonAction.
      */
-    protected function renderListByPerson($contrats, $titre)
+    protected function renderListByPerson($contrats, AbstractContrat $ctype)
     {
         $cPersons = array();
         foreach ($contrats as $contrat) {
@@ -59,7 +53,7 @@ abstract class AbstractContratController extends Controller
         ksort($cPersons, SORT_STRING);
         
         return $this->render('contrat/listbyperson.html.twig', array(
-            'titre' => $titre,
+            'titre' => $ctype::title,
             'personnes' => $cPersons
         ));
     }
@@ -67,7 +61,7 @@ abstract class AbstractContratController extends Controller
     /**
      * Render data constructed for listbyproduitAction.
      */
-    public function renderListByProduit($contrats, $titre)
+    public function renderListByProduit(array $contrats, AbstractContrat $ctype)
     {
         $countProduits = array();
         $produitById = array();
@@ -87,7 +81,7 @@ abstract class AbstractContratController extends Controller
         }
         ksort($contratProduits, SORT_STRING);
         return $this->render('contrat/listbyproduit.html.twig', array(
-            'titre' => $titre,
+            'titre' => $ctype::title,
             'produits' => $contratProduits
         ));
     }
@@ -95,18 +89,17 @@ abstract class AbstractContratController extends Controller
     /**
      * Displays a AbstractContrat entity for showAction
      */
-    protected function renderShow(AbstractContrat $contrat, $path, $titre)
+    protected function renderShow(AbstractContrat $contrat)
     {
-        $deleteForm = $this->createDeleteForm($contrat, $path);
-        $editForm = $this->createEditForm($contrat, $path);
+        $deleteForm = $this->createDeleteForm($contrat);
+        $editForm = $this->createEditForm($contrat);
         
         return $this->render('contrat/show.html.twig', array(
-            'titre' => $titre,
+            'titre' => $contrat::title,
             'contrat' => $contrat,
             'delete_form' => $deleteForm->createView(),
-            'delete_lignes' => $this->createDeleteLignes($contrat, 'ligne' . $path),
-            'edit_lignes' => $this->createEditLignes($contrat, 'ligne' . $path),
-            'edit_form' => $editForm->createView()
+            'delete_lignes' => $this->createDeleteLignes($contrat, 'ligne' . $contrat::path),
+            'edit_lignes' => $this->createEditLignes($contrat, 'ligne' . $contrat::path)
         ));
     }
 
@@ -115,7 +108,7 @@ abstract class AbstractContratController extends Controller
     /**
      * Routine for newAction
      */
-    protected function renderNew(AbstractContrat $contrat, $form, $path, $titre)
+    protected function renderNew(AbstractContrat $contrat, $form)
     {
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -129,59 +122,59 @@ abstract class AbstractContratController extends Controller
             }
             $em->flush();
             
-            $this->addFlash('notice', sprintf($titre . ' %d ajouté', $contrat->getId()));
+            $this->addFlash('notice', sprintf($contrat::title . ' %d ajouté', $contrat->getId()));
             
-            return $this->redirectToRoute($path . '_show', array(
+            return $this->redirectToRoute($contrat::path . '_show', array(
                 'id' => $contrat->getId()
             ));
         }
         
         return $this->render('contrat/new.html.twig', array(
             'contrat' => $contrat,
-            'titre' => $titre,
+            'titre' => $contrat::title,
             'form' => $form->createView()
         ));
     }
     abstract public function editAction(Request $request, AbstractContrat $contrat);
 
-    protected function renderEdit(AbstractContrat $contrat, $form, $path, $titre)
+    protected function renderEdit(AbstractContrat $contrat, $form)
     {
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($contrat);
-            $this->addFlash('notice', $titre.' ' . $contrat . ' persisté');
+            $this->addFlash('notice', $contrat::title.' ' . $contrat . ' persisté');
             
             foreach ($contrat->getLignes() as $ligne) {
                 $ligne->setContrat($contrat);
                 $this->getDoctrine()
                     ->getManager()
                     ->persist($ligne);
-                $this->addFlash('notice', $titre.' ' . $ligne . ' persistée');
+                $this->addFlash('notice', $contrat::title.' ' . $ligne . ' persistée');
             }
             $em->flush();
             
-            return $this->redirectToRoute($path.'_show', array(
+            return $this->redirectToRoute($contrat::path.'_show', array(
                 'id' => $contrat->getId()
             ));
         }
         return $this->render('contrat/edit.html.twig', array(
-            'titre' => $titre,
+            'titre' => $contrat::title,
             'contrat' => $contrat,
             'edit_form' => $form->createView()
         ));
     }
     public abstract function deleteAction(Request $request, AbstractContrat $contrat);
     
-    protected function renderdelete($form, AbstractContrat $contrat, $path, $titre)
+    protected function renderdelete(AbstractContrat $contrat, $form)
     {
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($contrat);
             $em->flush();
-            $this->addFlash('notice', $titre.' ' . $contrat . ' supprimé');
+            $this->addFlash('notice', $contrat::title.' ' . $contrat . ' supprimé');
         }
         
-        return $this->redirectToRoute($path.'_list');
+        return $this->redirectToRoute($contrat::path.'_list');
     }
 
     /**
@@ -192,10 +185,10 @@ abstract class AbstractContratController extends Controller
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    protected function createDeleteForm(AbstractContrat $contrat, $path)
+    protected function createDeleteForm(AbstractContrat $contrat)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl($path . '_delete', array(
+            ->setAction($this->generateUrl($contrat::path . '_delete', array(
             'id' => $contrat->getId()
         )))
             ->setMethod('DELETE')
@@ -210,10 +203,10 @@ abstract class AbstractContratController extends Controller
      *            
      * @return \Symfony\Component\Form\Form The form
      */
-    protected function createEditForm(AbstractContrat $contrat, $path)
+    protected function createEditForm(AbstractContrat $contrat)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl($path . '_edit', array(
+            ->setAction($this->generateUrl($contrat::path . '_edit', array(
             'id' => $contrat->getId()
         )))
             ->setMethod('GET')
@@ -228,12 +221,12 @@ abstract class AbstractContratController extends Controller
      *            
      * @return array
      */
-    protected function createDeleteLignes(AbstractContrat $contrat, $path)
+    protected function createDeleteLignes(AbstractContrat $contrat)
     {
         $deleteforms = array();
         foreach ($contrat->getLignes() as $ligne) {
             $deleteforms[] = $this->createFormBuilder()
-                ->setAction($this->generateUrl($path . '_delete', array(
+                ->setAction($this->generateUrl($contrat::path . '_delete', array(
                 'id' => $ligne->getId()
             )))
                 ->setMethod('DELETE')
@@ -251,12 +244,12 @@ abstract class AbstractContratController extends Controller
      *            
      * @return array
      */
-    protected function createEditLignes(AbstractContrat $contrat, $path)
+    protected function createEditLignes(AbstractContrat $contrat)
     {
         $editforms = array();
         foreach ($contrat->getLignes() as $ligne) {
             $editforms[] = $this->createFormBuilder()
-                ->setAction($this->generateUrl($path . '_edit', array(
+                ->setAction($this->generateUrl($contrat::path . '_edit', array(
                 'id' => $ligne->getId()
             )))
                 ->setMethod('GET')

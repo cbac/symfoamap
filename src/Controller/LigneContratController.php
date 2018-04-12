@@ -74,19 +74,10 @@ class LigneContratController extends AbstractLigneContratController
      * @Route("/lignecontrat/{id}/delete", name="lignecontrat_delete")
      * @Method({"GET","DELETE"})
      */
-    public function deleteLigneAction(Request $request, LigneContrat $lignecontrat)
+    public function deleteLigneAction(Request $request, AbstractLigne $ligne)
     {
-        $form = $this->createDeleteForm($lignecontrat);
+        $form = $this->createDeleteForm($ligne);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($lignecontrat);
-            $em->flush();
-            
-            $this->addFlash('notice', 'lignecontrat ' . $lignecontrat . ' supprimé');
-        }
-        
-        return $this->redirectToRoute("contrat_list");
+        return $this->renderDelete($form, $ligne);
     }
 }

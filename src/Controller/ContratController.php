@@ -28,7 +28,7 @@ class ContratController extends AbstractContratController
     {
         $em = $this->getDoctrine()->getManager();
         $contrats = $em->getRepository('App:Amap\Contrat')->findAll();
-        return $this->renderList($contrats, Contrat::path, Contrat::title);
+        return $this->renderList($contrats, new Contrat());
     }
 
     /**
@@ -88,7 +88,7 @@ class ContratController extends AbstractContratController
     {
         $em = $this->getDoctrine()->getManager();
         $contrats = $em->getRepository('App:Amap\LigneContrat')->findAll();
-        return $this->renderListByProduit($contrats,Contrat::title);
+        return $this->renderListByProduit($contrats, new Contrat());
     }
 
     /**
@@ -101,7 +101,7 @@ class ContratController extends AbstractContratController
      */
     public function showAction(Request $request, AbstractContrat $contrat)
     {
-        return $this->renderShow($contrat, Contrat::path, Contrat::title);
+        return $this->renderShow($contrat);
     }
 
     /**
@@ -116,32 +116,7 @@ class ContratController extends AbstractContratController
         
         $form = $this->createForm('App\Form\ContratType', $contrat);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($contrat);
-            foreach ($contrat->getLignes() as $ligne) {
-                $ligne->setContrat($contrat);
-                $this->getDoctrine()
-                    ->getManager()
-                    ->persist($ligne);
-                $this->addFlash('notice', sprintf('Ligne %d ajoutée', $ligne->getId()));
-            }
-            
-            $em->flush();
-            
-            $this->addFlash('notice', sprintf('Contrat %d ajouté', $contrat->getId()));
-            
-            return $this->redirectToRoute(Contrat::path.'_show', array(
-                'id' => $contrat->getId()
-            ));
-        }
-        
-        return $this->render('contrat/new.html.twig', array(
-            'titre' => Contrat::title,
-            'contrat' => $contrat,
-            'form' => $form->createView()
-        ));
+        return $this->renderNew($contrat, $form);
     }
 
     /**
@@ -154,7 +129,7 @@ class ContratController extends AbstractContratController
     {
         $editForm = $this->createForm('\App\Form\ContratType', $contrat);
         $editForm->handleRequest($request);
-        return $this->renderEdit($editForm, $contrat, Contrat::path, Contrat::title);
+        return $this->renderEdit($contrat, $editForm);
     }
 
     /**
@@ -165,92 +140,8 @@ class ContratController extends AbstractContratController
      */
     public function deleteAction(Request $request, AbstractContrat $contrat)
     {
-        $form = $this->createDeleteForm($contrat, Contrat::path);
+        $form = $this->createDeleteForm($contrat);
         $form->handleRequest($request);
-        return $this->renderDelete($contrat, $form, Contrat::path, Contrat::title);
+        return $this->renderDelete($contrat, $form);
     }
-
-    /**
-     * Creates a form to delete a Contrat entity.
-     *
-     * @param Contrat $contrat
-     *            The Contrat entity
-     *            
-     * @return \Symfony\Component\Form\Form The form
-     */
- /*   private function createDeleteForm(Contrat $contrat)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('contrat_delete', array(
-            'id' => $contrat->getId()
-        )))
-            ->setMethod('DELETE')
-            ->getForm();
-    }
-*/
-    /**
-     * Creates a form to edit a Contrat entity.
-     *
-     * @param Contrat $contrat
-     *            The Contrat entity
-     *            
-     * @return \Symfony\Component\Form\Form The form
-     */
- /*   private function createEditForm(Contrat $contrat)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('contrat_edit', array(
-            'id' => $contrat->getId()
-        )))
-            ->setMethod('GET')
-            ->getForm();
-    }
-*/
-    /**
-     * Creates an array of form to delete each line in a Contract.
-     *
-     * @param Contrat $contrat
-     *            The Contrat entity
-     *            
-     * @return array
-     */
-/*    private function createDeleteLignes(Contrat $contrat)
-    {
-        $deleteforms = array();
-        foreach ($contrat->getLignes() as $ligne) {
-            $deleteforms[] = $this->createFormBuilder()
-                ->setAction($this->generateUrl('lignecontrat_delete', array(
-                'id' => $ligne->getId()
-            )))
-                ->setMethod('DELETE')
-                ->getForm()
-                ->createView();
-        }
-        return $deleteforms;
-    }
-    */
-    /**
-     * Creates an array of form to edit each line in a Contract.
-     *
-     * @param Contrat $contrat
-     *            The Contrat entity
-     *
-     * @return array
-     */
-/*
-    private function createEditLignes(Contrat $contrat)
-    {
-        $editforms = array();
-        foreach ($contrat->getLignes() as $ligne) {
-            $editforms[] = $this->createFormBuilder()
-            ->setAction($this->generateUrl('lignecontrat_edit', array(
-                'id' => $ligne->getId()
-            )))
-            ->setMethod('GET')
-            ->getForm()
-            ->createView();
-        }
-        return $editforms;
-    }
-    */
 }

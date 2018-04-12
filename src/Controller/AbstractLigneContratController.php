@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Amap\AbstractContrat;
 use App\Entity\Amap\AbstractLigne;
 use Symfony\Component\Form\Form;
 
@@ -17,7 +18,7 @@ abstract class AbstractLigneContratController extends Controller
     /**
      * Lists data constructed in listAction
      */
-    protected function renderList(array $lignecontrats)
+    protected function renderList(array $lignecontrats, AbstractContrat $obj)
     {
         $deleteforms = array();
         foreach ($lignecontrats as $lignecontrat) {
@@ -25,8 +26,8 @@ abstract class AbstractLigneContratController extends Controller
         }
         return $this->render('lignecontrat/list.html.twig', array(
             'lignecontrats' => $lignecontrats,
-            'titre' => $lignecontrat::title,
-            'path' => $lignecontrat::path,
+            'titre' => $obj::title,
+            'path' => $obj::path,
             'deleteforms' => $deleteforms
         ));
     }
@@ -34,7 +35,7 @@ abstract class AbstractLigneContratController extends Controller
     protected function renderShow(AbstractLigne $ligne, string $path, string $titre){
         $deleteForm = $this->createDeleteForm($ligne,$path);
         return $this->render('lignecontrat/show.html.twig', array(
-            'lignecontrat' => $ligne,
+            'ligne' => $ligne,
             'path' => $path,
             'titre' => $titre,
             'delete_form' => $deleteForm->createView()
@@ -42,7 +43,7 @@ abstract class AbstractLigneContratController extends Controller
     }
     abstract public function newLigneAction(Request $request);
 
-    protected function renderNew(Form $form, AbstractLigne $ligne, string $path, string $titre)
+    protected function renderNew(Form $form, AbstractLigne $ligne)
     {
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -63,7 +64,7 @@ abstract class AbstractLigneContratController extends Controller
     }
     abstract public function editLigneAction(Request $request, AbstractLigne $lignecontrat);
 
-    protected function renderEdit(Form $editform, AbstractLigne $ligne, string $path, string $titre)
+    protected function renderEdit(Form $editform, AbstractLigne $ligne)
     {
         if ($editform->isSubmitted() && $editform->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -76,7 +77,7 @@ abstract class AbstractLigneContratController extends Controller
         }
         $deleteform = $this->createDeleteForm($ligne);
         return $this->render('lignecontrat/edit.html.twig', array(
-            'titre' => 'Ligne Contrat',
+            'titre' => $ligne::title,
             'lignecontrat' => $ligne,
             'edit_form' => $editform->createView(),
             'delete_form' => $deleteform->createView()
@@ -90,7 +91,7 @@ abstract class AbstractLigneContratController extends Controller
      * @Method({"GET","DELETE"})
      */
     abstract public function deleteLigneAction(Request $request, AbstractLigne $ligne);
-    protected function renderDelete(Form $form, AbstractLigne $ligne,  string $path, string $titre)
+    protected function renderDelete(Form $form, AbstractLigne $ligne)
     {
        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();

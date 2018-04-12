@@ -1,12 +1,10 @@
 <?php
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Amap\HorsContrat;
-use App\Entity\Amap\Personne;
 use App\Form\HorsContratType;
 use App\Entity\Amap\AbstractContrat;
 
@@ -29,7 +27,7 @@ class HorsContratController extends AbstractContratController
         
         $horscontrats = $em->getRepository('App:Amap\HorsContrat')->findAll();
         
-        return $this->renderList($horscontrats, HorsContrat::path, HorsContrat::title);
+        return $this->renderList($horscontrats, new HorsContrat());
     }
 
     /**
@@ -42,7 +40,7 @@ class HorsContratController extends AbstractContratController
     {
         $em = $this->getDoctrine()->getManager();
         $hcontrats = $em->getRepository('App:Amap\HorsContrat')->findAll();
-        return $this->renderListByPerson($hcontrats, HorsContrat::title);
+        return $this->renderListByPerson($hcontrats, new HorsContrat());
     }
 
     /**
@@ -68,7 +66,7 @@ class HorsContratController extends AbstractContratController
      */
     public function showAction(HorsContrat $contrat)
     {
-        return $this->renderShow($contrat, HorsContrat::path, HorsContrat::title);
+        return $this->renderShow($contrat);
     }
 
     /**
@@ -83,7 +81,7 @@ class HorsContratController extends AbstractContratController
         
         $form = $this->createForm('App\Form\HorsContratType', $horscontrat);
         $form->handleRequest($request);
-        return renderNew($horscontrat, $form, HorsContrat::path, HorsContrat::title);
+        return $this->renderNew($horscontrat, $form);
     }
 
     /**
@@ -96,7 +94,7 @@ class HorsContratController extends AbstractContratController
     {
         $editForm = $this->createForm('App\Form\HorsContratType', $contrat);
         $editForm->handleRequest($request);
-        return $this->renderEdit($editForm, $contrat, HorsContrat::path, HorsContrat::title);
+        return $this->renderEdit($contrat, $editForm);
     }
 
     /**
@@ -109,7 +107,7 @@ class HorsContratController extends AbstractContratController
     {
         $form = $this->createDeleteForm($contrat);
         $form->handleRequest($request);       
-        return $this->renderDelete($contrat, $form, HorsContrat::path, HorsContrat::title);
+        return $this->renderDelete($contrat, $form);
     }
 
 }
