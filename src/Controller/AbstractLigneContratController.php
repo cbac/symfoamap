@@ -3,7 +3,6 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Amap\AbstractContrat;
 use App\Entity\Amap\AbstractLigne;
 use Symfony\Component\Form\Form;
 
@@ -21,14 +20,17 @@ abstract class AbstractLigneContratController extends Controller
     protected function renderList(array $lignescontrats, AbstractLigne $obj)
     {
         $deleteforms = array();
+        $editforms = array();
         foreach ($lignescontrats as $lignecontrat) {
             $deleteforms[] = $this->createDeleteForm($lignecontrat)->createView();
+            $editforms[] = $this->createEditForm($lignecontrat)->createView();
         }
         return $this->render('lignecontrat/list.html.twig', array(
             'lignescontrat' => $lignescontrats,
             'titre' => $obj::title,
             'path' => $obj::path,
-            'deleteforms' => $deleteforms
+            'deleteforms' => $deleteforms,
+            'editforms' => $editforms
         ));
     }
     abstract public function showAction(Request $request, AbstractLigne $ligne);
@@ -59,6 +61,7 @@ abstract class AbstractLigneContratController extends Controller
         
         return $this->render('lignecontrat/new.html.twig', array(
             'lignecontrat' => $ligne,
+            'titre' => $ligne::title,
             'form' => $form->createView()
         ));
     }

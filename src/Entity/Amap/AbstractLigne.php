@@ -122,7 +122,7 @@ abstract class AbstractLigne
      */
     public function getContrat()
     {
-        return $this->Contrat;
+        return $this->contrat;
     }
     /**
      * Return LigneContrat as a string

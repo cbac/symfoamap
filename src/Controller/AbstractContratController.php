@@ -46,7 +46,7 @@ abstract class AbstractContratController extends Controller
             $cPersons[$personne->__toString()] = array(
                 'lignes' => $contrat->getLignes(),
                 'id' => $personne->getid(),
-                'cheque' => $personne->getCheque()
+ //               'cheque' => $contrat->getCheque()
             );
         }
         
@@ -93,11 +93,14 @@ abstract class AbstractContratController extends Controller
     {
         $deleteForm = $this->createDeleteForm($contrat);
         $editForm = $this->createEditForm($contrat);
+        $newForm = $this->createNewForm($contrat);
         
         return $this->render('contrat/show.html.twig', array(
             'titre' => $contrat::title,
             'contrat' => $contrat,
             'delete_form' => $deleteForm->createView(),
+            'edit_form' => $editForm->createView(),
+            'new_form' => $newForm->createView(),
             'delete_lignes' => $this->createDeleteLignes($contrat, 'ligne' . $contrat::path),
             'edit_lignes' => $this->createEditLignes($contrat, 'ligne' . $contrat::path)
         ));
@@ -139,8 +142,7 @@ abstract class AbstractContratController extends Controller
     {
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-//            $em->persist($contrat);
-//            $this->addFlash('notice', $contrat::title.' ' . $contrat . ' persisté');
+            $this->addFlash('notice', $contrat::title.' ' . $contrat . ' persisté');
             
             foreach ($contrat->getLignes() as $ligne) {
                 $ligne->setContrat($contrat);
@@ -212,7 +214,23 @@ abstract class AbstractContratController extends Controller
             ->setMethod('GET')
             ->getForm();
     }
-
+    /**
+     * Creates a form to add a Contrat entity.
+     *
+     * @param AbstractContrat $contrat
+     *            The Contrat entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    protected function createNewForm(AbstractContrat $contrat)
+    {
+        return $this->createFormBuilder()
+        ->setAction($this->generateUrl($contrat::path . '_new', array(
+            'id' => $contrat->getId()
+        )))
+        ->setMethod('GET')
+        ->getForm();
+    }
     /**
      * Creates an array of form to delete each line in a Contract.
      *

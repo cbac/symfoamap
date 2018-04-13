@@ -44,7 +44,6 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Adhérents <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="{{ path('personne_index') }}">Adhérents avec contrat</a></li>
-                <li><a href="{{ path('personne_sanscontrat') }}">Adhérents sans contrat</a></li>
                 <li><a href="{{ path('personne_new') }}">Nouvel adhérent</a><li>
               </ul>
             </li>
@@ -71,7 +70,7 @@
                 <span aria-hidden="true">&times;</span>
                 <span class="sr-only">Close</span>
             </button>
-            <p>{{ message|raw }}</p>
+    {#        <p>{{ message|raw }}</p> #}
         </div>
     {% endfor %}
 {% endfor %}

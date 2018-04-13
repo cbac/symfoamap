@@ -23,46 +23,18 @@ class PersonneController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-        		'SELECT p
-    FROM App:Amap\Personne p
-    ORDER BY p.nom ASC'
-        		);
+        $personnes = $em->getRepository('App:Amap\Personne')->findAll();
+        $deleteforms = array();
+        foreach ($personnes as $personne) {
+            $deleteforms[] = $this->createDeleteForm($personne)->createView();
+        }      
+        return $this->render('personne/index.html.twig', array(
+            'personnes' => $personnes,
+            'deleteforms' => $deleteforms
+        ));
+    }
 
-        return $this->renderList($query);
-    }
-    /**
-     * Lists data constructed either in indexAction or in listNonValueAction
-     */
-    private function renderList($query) {
-    	$personnes = $query->execute();
-    	$deleteforms = array();
-    	foreach ($personnes as $personne) {
-    		$deleteforms[] = $this->createDeleteForm($personne)->createView();
-    	}
-    	//	$personnes = $em->getRepository('App:Amap\Personne')->findAll();
-    	return $this->render('personne/index.html.twig', array(
-    			'personnes' => $personnes,
-    			'deleteforms' => $deleteforms
-    	));
-    }
-    /**
-     * Lists Personne with no contrat.
-     *
-     * @Route("/personne/sanscontrat", name="personne_sanscontrat")
-     * @Method("GET")
-     */
-    public function listNonValueAction()
-    {
-    	$em = $this->getDoctrine()->getManager();
-    	$query = $em->createQuery(
-    			'SELECT p
-    FROM App:Amap\Personne p
-    ORDER BY p.nom ASC'
-    			);
-        return $this->renderList($query);
-    }
-    /**
+     /**
      * Finds and displays a Personne entity.
      *
      * @Route("/personne/{id}", name="personne_show", requirements={

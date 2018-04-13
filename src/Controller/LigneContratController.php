@@ -16,27 +16,24 @@ class LigneContratController extends AbstractLigneContratController
     /**
      * Lists all Lignes entities.
      *
-     * @Route("/lignecontrat/", name="ligne_index")
-     * @Route("/lignecontrat/list/", name="ligne_list")
+     * @Route("/lignecontrat/", name="lignecontrat_index")
+     * @Route("/lignecontrat/list/", name="lignecontrat_list")
      * @Method("GET")
      */
     public function listAction()
     {
         $em = $this->getDoctrine()->getManager();
         $lignecontrats = $em->getRepository('App:Amap\LigneContrat')->findAll();
-        return $this->renderList($lignecontrats, LigneContrat::path);
+        return $this->renderList($lignecontrats, new LigneContrat());
     }
     /**
      * Finds and displays a LigneContrat entity.
      *
-     * @Route("/lignecontrat/{id}", name="lignecontrat_show", requirements={
-     * "id": "\d+"
-     * })
-     * @Method("GET")
+     *
      */
     public function showAction(Request $request, AbstractLigne $lignecontrat)
     {
-        return $this->renderShow($lignecontrat, LigneContrat::path, LigneContrat::title);
+        return $this->renderShow($lignecontrat);
         
     }
     /**
@@ -51,13 +48,13 @@ class LigneContratController extends AbstractLigneContratController
         
         $form = $this->createForm('App\Form\LigneContratType', $lignecontrat);
         $form->handleRequest($request);
-        return $this->renderNew($request,$form,LigneContrat::path, LigneContrat::title);
+        return $this->renderNew($form, $lignecontrat);
     }
 
     /**
      * Displays a form to edit an existing LigneContrat entity.
-     *
-     * @Route("/lignecontrat/{id}/edit", name="lignecontrat_edit")
+     * @Route("/lignecontrat/{id}", name="lignecontrat_show", requirements={ "id": "\d+"})
+     * @Route("/lignecontrat/{id}/edit", name="lignecontrat_edit", requirements={ "id": "\d+"})
      * @Method({"GET", "POST"})
      */
     public function editLigneAction(Request $request, AbstractLigne $ligne)
@@ -65,7 +62,7 @@ class LigneContratController extends AbstractLigneContratController
         $editForm = $this->createForm('App\Form\LigneContratType', $ligne);
         
         $editForm->handleRequest($request);
-        return $this->renderEdit($editForm, $ligne, LigneContrat::path, LigneContrat::title);
+        return $this->renderEdit($editForm, $ligne);
     }
 
     /**

@@ -42,40 +42,7 @@ class ContratController extends AbstractContratController
         $em = $this->getDoctrine()->getManager();
         $contrats = $em->getRepository('App:Amap\Contrat')->findAll();
         
-        return $this->renderListByPerson($contrats, Contrat::title);
-    }
-
-    /**
-     * Liste les contrats par utilisateur.
-     *
-     * @Route("/contrat/{id}/list", name="contrat_oneperson",
-     * 		requirements={ "id": "\d+" })
-     * @Method("GET")
-     */
-    public function listOnepersonAction(Request $request, Personne $personne)
-    {
-        $deleteviews = array();
-        $editviews = array();
-        $produitString = array();
-        foreach ($personne->getContrats() as $contrat) {
-            $deleteForm = $this->createDeleteForm($contrat);
-            $deleteviews[] = $deleteForm->createView();
-            $editForm = $this->createEditForm($contrat);
-            $editviews[] = $editForm->createView();
-            $produitString[] = $contrat->getProduit()->__toString();
-        }
-        
-        $contractPerson = array(
-            'tostring' => $personne->__toString(),
-            'id' => $personne->getId(),
-            'cheque' => $personne->getCheque(),
-            'contrats' => $personne->getContrats(),
-            'produitString' => $produitString,
-            'deleteforms' => $deleteviews,
-            'editforms' => $editviews
-        );
-        $res = $this->render('contrat/listoneperson.html.twig', $contractPerson);
-        return $res;
+        return $this->renderListByPerson($contrats, new Contrat());
     }
 
     /**
@@ -87,8 +54,8 @@ class ContratController extends AbstractContratController
     public function listbyproduitAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $contrats = $em->getRepository('App:Amap\LigneContrat')->findAll();
-        return $this->renderListByProduit($contrats, new Contrat());
+        $ligneContrats = $em->getRepository('App:Amap\LigneContrat')->findAll();
+        return $this->renderListByProduit($ligneContrats, new Contrat());
     }
 
     /**

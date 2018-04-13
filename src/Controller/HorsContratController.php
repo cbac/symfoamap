@@ -52,8 +52,8 @@ class HorsContratController extends AbstractContratController
     public function listbyproduitAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $horscontrats = $em->getRepository('App:Amap\LigneHorsContrat')->findAll();
-        return $this->renderListByProduit($contrats, HorsContrat::title);
+        $lignesHorsContrats = $em->getRepository('App:Amap\LigneHorsContrat')->findAll();
+        return $this->renderListByProduit($lignesHorsContrats, new HorsContrat());
     }
 
     /**
@@ -87,7 +87,7 @@ class HorsContratController extends AbstractContratController
     /**
      * Displays a form to edit an existing HorsContrat entity.
      *
-     * @Route("/horscontrat/{id}/edit", name="horscontrat_edit")
+     * @Route("/horscontrat/{id}/edit", name="horscontrat_edit",requirements={ "id": "\d+" }))
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, AbstractContrat $contrat)

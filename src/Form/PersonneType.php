@@ -17,7 +17,6 @@ class PersonneType extends AbstractType
         $builder
             ->add('nom')
             ->add('prenom')
-            ->add('cheque')
         ;
     }
     
