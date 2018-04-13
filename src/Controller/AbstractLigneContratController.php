@@ -18,14 +18,14 @@ abstract class AbstractLigneContratController extends Controller
     /**
      * Lists data constructed in listAction
      */
-    protected function renderList(array $lignecontrats, AbstractContrat $obj)
+    protected function renderList(array $lignescontrats, AbstractLigne $obj)
     {
         $deleteforms = array();
-        foreach ($lignecontrats as $lignecontrat) {
+        foreach ($lignescontrats as $lignecontrat) {
             $deleteforms[] = $this->createDeleteForm($lignecontrat)->createView();
         }
         return $this->render('lignecontrat/list.html.twig', array(
-            'lignecontrats' => $lignecontrats,
+            'lignescontrat' => $lignescontrats,
             'titre' => $obj::title,
             'path' => $obj::path,
             'deleteforms' => $deleteforms

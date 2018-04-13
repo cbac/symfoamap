@@ -115,9 +115,7 @@ abstract class AbstractContratController extends Controller
             $em->persist($contrat);
             foreach ($contrat->getLignes() as $ligne) {
                 $ligne->setContrat($contrat);
-                $this->getDoctrine()
-                    ->getManager()
-                    ->persist($ligne);
+                $em->persist($ligne);
                 $this->addFlash('notice', sprintf('Ligne %d ajoutée', $ligne->getId()));
             }
             $em->flush();
@@ -141,14 +139,12 @@ abstract class AbstractContratController extends Controller
     {
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($contrat);
-            $this->addFlash('notice', $contrat::title.' ' . $contrat . ' persisté');
+//            $em->persist($contrat);
+//            $this->addFlash('notice', $contrat::title.' ' . $contrat . ' persisté');
             
             foreach ($contrat->getLignes() as $ligne) {
                 $ligne->setContrat($contrat);
-                $this->getDoctrine()
-                    ->getManager()
-                    ->persist($ligne);
+                $em->persist($ligne);
                 $this->addFlash('notice', $contrat::title.' ' . $ligne . ' persistée');
             }
             $em->flush();
@@ -169,9 +165,13 @@ abstract class AbstractContratController extends Controller
     {
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            foreach ($contrat->getLignes() as $ligne) {
+                $em->remove($ligne);
+                $this->addFlash('notice', $contrat::title.' ' . $ligne . ' removed');
+            }
             $em->remove($contrat);
             $em->flush();
-            $this->addFlash('notice', $contrat::title.' ' . $contrat . ' supprimé');
+            $this->addFlash('notice', $contrat::title.' ' . $contrat . ' removed');
         }
         
         return $this->redirectToRoute($contrat::path.'_list');
@@ -226,7 +226,7 @@ abstract class AbstractContratController extends Controller
         $deleteforms = array();
         foreach ($contrat->getLignes() as $ligne) {
             $deleteforms[] = $this->createFormBuilder()
-                ->setAction($this->generateUrl($contrat::path . '_delete', array(
+                ->setAction($this->generateUrl($ligne::path . '_delete', array(
                 'id' => $ligne->getId()
             )))
                 ->setMethod('DELETE')
@@ -249,7 +249,7 @@ abstract class AbstractContratController extends Controller
         $editforms = array();
         foreach ($contrat->getLignes() as $ligne) {
             $editforms[] = $this->createFormBuilder()
-                ->setAction($this->generateUrl($contrat::path . '_edit', array(
+                ->setAction($this->generateUrl($ligne::path . '_edit', array(
                 'id' => $ligne->getId()
             )))
                 ->setMethod('GET')

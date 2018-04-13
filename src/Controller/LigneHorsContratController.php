@@ -21,8 +21,8 @@ class LigneHorsContratController extends AbstractLigneContratController {
     /**
      * Lists all Lignes entities.
      *
-     * @Route("/lignehorscontrat/", name="lignehc_index")
-     * @Route("/lignehorscontrat/list/", name="lignehc_list")
+     * @Route("/lignehorscontrat/", name="lignehorscontrat_index")
+     * @Route("/lignehorscontrat/list/", name="lignehorscontrat_list")
      * @Method("GET")
      */
     public function listAction()
@@ -55,9 +55,9 @@ class LigneHorsContratController extends AbstractLigneContratController {
         return $this->renderDelete($form, $ligne);
     }
     /**
-     * Creates a new LigneContrat entity.
+     * Creates a new LigneHorsContrat entity.
      *
-     * @Route("/lignecontrat/new", name="lignecontrat_new")
+     * @Route("/lignehorscontrat/new", name="lignehorscontrat_new")
      * @Method({"GET", "POST"})
      */
     public function newLigneAction(Request $request) {
@@ -73,11 +73,11 @@ class LigneHorsContratController extends AbstractLigneContratController {
      * @Route("/lignehorscontrat/{id}/edit", name="lignehorscontrat_edit")
      * @Method({"GET", "POST"})
      */
-    public function editLigneAction(Request $request, AbstractLigne $lignet) {
+    public function editLigneAction(Request $request, AbstractLigne $ligne) {
         
         $editForm = $this->createForm ( 'App\Form\LigneHorsContratType', $ligne );
         
         $editForm->handleRequest ( $request );
-        return $this->renderEdit($editform, $ligne);
+        return $this->renderEdit($editForm, $ligne);
     }
 }

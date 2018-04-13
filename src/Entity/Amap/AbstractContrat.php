@@ -36,7 +36,7 @@ abstract class AbstractContrat
      * On définit l'association avec un orphanRemoval pour faciliter la suppression des lignes
      *
      * @ORM\OneToMany(targetEntity="AbstractLigne",
-     * 					mappedBy="contrat", orphanRemoval=true)
+     * 					mappedBy="contrat")
      * (Doctrine INVERSE SIDE)
      */
     protected $lignes;
