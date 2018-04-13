@@ -5,74 +5,71 @@
 	{% set totalMeunier = 0 %}
 	{% set totalCheques = 0 %}
 	{% set totalReduc = 0 %}
-	<table>
 
 	{% for nompersonne, personne in personnes %}
-		{% if personne.cheque != 0 %}
 	    {% set total = 0.0 %}
-	        <tr><td>
+	       <table class="table-bordered table">
+	       <thead>
+	        <tr>
+	           <th align="center">{{ nompersonne }}</th>
+	            <th align="center"> Signature adhérent </th> 
+                <th align="center"> Signature distribution </th>
+	        </tr>
+	         </thead>
+	         <tbody>
+	        <tr>
+	        <td>
    <table class="table-bordered table" >
        <thead>
         <tr>
-
-            <th align="center">{{ nompersonne }}</th>
-            <th align="center">Produit</th>
-            <th align="center">Type</th>
-            <th align="center">Bio</th>
-            <th align="center">Poid</th>
-            <th>Nombre</th>
-            <th>Prix</th>
+            <th>Produit</th>
+            <th align="right">Nombre</th>
+            <th align="right">Prix</th>
         </tr>
-    </thead>	<tbody>
+    </thead>	
+    <tbody>
 		{% for ligne in personne['lignes'] %}
 			{% set cout = ((ligne.produit.prix  *  0.93)| round(2) ) * ligne.nombre %}
 			{% set total = total + cout %}
 		<tr>
-			<td> &nbsp;</td>
-			<td align="center"> {{ ligne.produit.nomProduit }} </td>
-			<td align="center"> 
-			    {% if ligne.produit.t %}
-							T {{ligne.produit.t}}
-                {% else %} 
-                        &nbsp;
-				{% endif %}
-			</td>
-			<td align="center">	
-                {% if ligne.produit.bio %}
-						bio 
-                {% else %}
-						non bio
-                {% endif %}	</td>
-			<td align="center">	{{ ligne.produit.poid }} kg </td>
-			<td align="right"> {{ ligne.nombre }} </td>
+			<td> {{ ligne.produit }} </td>
+			<td align="right">
+			 {% if ligne.nombre > 1 %}
+			 <b>
+			 {% endif %}
+			 {{ ligne.nombre }}
+             {% if ligne.nombre > 1 %}
+             </b>
+             {% endif %}			 
+			  </td>
 			<td align="right"> {{ cout|number_format(2, '.', ',')}} </td>
 		</tr>
 		{% endfor %}
 		<tr>
-             <th colspan="5">Signature</th>
-             <td align="center">Total</td>
+             <th colspan="2">Total</th>
               <td align="right" > {{ total|number_format(2, '.', ',') }}</td>
         </tr>
      </tbody>
 		{% set totalMeunier = totalMeunier + total %}
 	</table>
     </td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
     </tr>
-	{% endif %}
+     </tbody>
+    </table>
 	{% endfor %}
-	<tr>
-	<td>
 	<table>
 	<tbody>
 	<tr>
 	   <th>Total du</th>
 	   <td colspan="4">&nbsp;</td>
         <td> {{ totalMeunier }}</td>
-     </tr>
-     </tbody>
-    </table>
+
     </td>
     </tr>
+    </tbody>
+    </table>
 </table>
 
 {% endblock %} {# body #}

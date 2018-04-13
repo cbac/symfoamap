@@ -3,7 +3,7 @@
 {% block body %}
     <h1> {{ titre }}</h1>
 <div class="col-md-6">
- <p><a href="{{ path( path_new ) }}">Ajout nouveau contrat</a></p>
+ <p><a href="{{ path( path_new ) }}">Ajout nouveau {{ titre }}</a></p>
  <table class="table table-bordered" >
    <thead>
      <tr>
@@ -13,7 +13,7 @@
     <tbody>
       {% for index, contrat in contrats %}
         <tr>
-          <td>{{ contrat.personne }}</td>
+          <th>{{ contrat.personne }}</td>
           <td>{{ form_start(editforms[index]) }}
                   <input type="submit" value="Edit">
                   {{ form_end(editforms[index]) }}
@@ -22,6 +22,25 @@
                   <input type="submit" value="Delete">
                   {{ form_end(deleteforms[index]) }}
            </td>
+         </tr>
+         <tr>
+         <td colspan="3">
+           <table class="table-bordered table table-condensed" >
+       <thead>
+        <tr>
+            <th>Produit</th>
+            <th align="right">Nombre</th>
+        </tr>
+    </thead>    <tbody>
+        {% for ligne in contrat.lignes %}
+        <tr>
+            <td> {{ ligne.produit }} </td>
+            <td align="right"> {{ ligne.nombre }} </td>
+        </tr>
+        {% endfor %}
+     </tbody>
+    </table>
+         </td>
          </tr>
       {% endfor %}
     </tbody>
