@@ -3,10 +3,11 @@
 namespace App\Entity\Amap;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * Produit
- *
+ * @ApiResource
  * @ORM\Table(name="amap_produit")
  * @ORM\Entity(repositoryClass="App\Repository\Amap\ProduitRepository")
  */
@@ -207,7 +208,7 @@ class Produit
     /**
      * Add contrat
      *
-     * @param \App\Entity\Amap\Contrats $contrat
+     * @param \App\Entity\Amap\Contrat $contrat
      *
      * @return Produit
      */
@@ -221,7 +222,7 @@ class Produit
     /**
      * Remove contrat
      *
-     * @param \App\Entity\Amap\Contrats $contrat
+     * @param \App\Entity\Amap\Contrat $contrat
      */
     public function removeContrat(\App\Entity\Amap\Contrat $contrat)
     {

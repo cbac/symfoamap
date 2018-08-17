@@ -3,10 +3,11 @@
 namespace App\Entity\Amap;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * HorsContrat
- *
+ * @ApiResource
  * @ORM\Table(name="amap_horscontrat")
  * @ORM\Entity(repositoryClass="App\Repository\Amap\HorsContratRepository")
  *
@@ -31,7 +32,7 @@ class HorsContrat
     private $produit;
 
     /**
-     * @var person
+     * @var Personne
      *
      * @ORM\ManyToOne(targetEntity="Personne")
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")

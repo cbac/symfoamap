@@ -5,10 +5,11 @@ namespace App\Entity\Amap;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * Personne
- *
+ * @ApiResource
  * @ORM\Table(name="amap_personne", indexes={@ORM\Index(name="personne_indx", columns={"nom", "prenom"})})
  * @ORM\Entity(repositoryClass="App\Repository\Amap\PersonneRepository")
  * @UniqueEntity(

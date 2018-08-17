@@ -3,10 +3,10 @@
 namespace App\Entity\Amap;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use ApiPlatform\Core\Annotation\ApiResource;
 /**
  * Contrat
- *
+ * @ApiResource
  * @ORM\Table(name="amap_contrat")
  * @ORM\Entity(repositoryClass="App\Repository\Amap\ContratRepository")
  *
