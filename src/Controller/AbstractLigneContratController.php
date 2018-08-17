@@ -89,9 +89,6 @@ abstract class AbstractLigneContratController extends Controller
 
     /**
      * Deletes a LigneContrat entity.
-     *
-     * @Route("/lignecontrat/{id}/delete", name="lignecontrat_delete")
-     * @Method({"GET","DELETE"})
      */
     abstract public function deleteLigneAction(Request $request, AbstractLigne $ligne);
     protected function renderDelete(Form $form, AbstractLigne $ligne)

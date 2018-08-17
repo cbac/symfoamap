@@ -4,7 +4,7 @@ parameters:
     locale: 'fr'
     database_host: 127.0.0.1
     database_port: 3306
-    database_name: amapsf4
+    database_name: amapsf4-test
     database_user: amapsf4
     database_password: ccbac
     secret: 662df9abeb5ff8b775c0ea3fa169e78078eb3413
