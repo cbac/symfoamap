@@ -28,12 +28,12 @@ class LigneContratController extends AbstractLigneContratController
     }
     /**
      * Finds and displays a LigneContrat entity.
-     *
+     * @Route("/lignecontrat/{id}", name="lignecontrat_show", requirements={ "id": "\d+"})
      *
      */
     public function showAction(Request $request, AbstractLigne $lignecontrat)
     {
-        return $this->renderShow($lignecontrat);
+        return $this->renderShow($lignecontrat,'lignecontrat','lignecontrat');
         
     }
     /**
@@ -53,7 +53,7 @@ class LigneContratController extends AbstractLigneContratController
 
     /**
      * Displays a form to edit an existing LigneContrat entity.
-     * @Route("/lignecontrat/{id}", name="lignecontrat_show", requirements={ "id": "\d+"})
+     * 
      * @Route("/lignecontrat/{id}/edit", name="lignecontrat_edit", requirements={ "id": "\d+"})
      * @Method({"GET", "POST"})
      */

@@ -34,14 +34,14 @@ class LigneHorsContratController extends AbstractLigneContratController {
     /**
      * Finds and displays a LigneContrat entity.
      *
-     * @Route("/lignehorscontrat/{id}", name="lignehc_show", requirements={
+     * @Route("/lignehorscontrat/{id}", name="lignehorscontrat_show", requirements={
      * "id": "\d+"
      * })
      * @Method("GET")
      */
     public function showAction(Request $request, AbstractLigne $lignecontrat)
     {
-        return $this->renderShow($lignecontrat);     
+        return $this->renderShow($lignecontrat,'lignehorscontrat','lignehorscontrat');     
     }
     /**
      * Deletes a LigneHorsContrat entity.

@@ -3,8 +3,8 @@
 {% block body %}
     <h1> {{ titre }}</h1>
 
-    Produit : {{ ligne.produit }} 
-    Quantité : {{ ligne.nombre }}
+    <p>Produit : {{ ligne.produit }} </p>
+    <p>Quantité : {{ ligne.nombre }} </p>
 
     {{ form_start(delete_form) }}
         <input type="submit" value="Delete">
