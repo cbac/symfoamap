@@ -5,7 +5,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Amap\HorsContrat;
-use App\Form\HorsContratType;
 use App\Entity\Amap\AbstractContrat;
 
 /**

@@ -43,7 +43,7 @@ abstract class AbstractContrat
     
     public function __construct()
     {
-        $this->lignes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lignes = new ArrayCollection();
     }
     /**
      * Get id

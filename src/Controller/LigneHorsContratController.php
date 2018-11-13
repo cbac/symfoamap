@@ -2,19 +2,15 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Amap\AbstractLigne;
-use App\Entity\Amap\Contrat;
-use App\Entity\Amap\Personne;
-use App\Entity\Amap\Produit;
-use App\Form\ContratType;
 use App\Entity\Amap\LigneHorsContrat;
 
 /**
- * Contrat controller.
+ * LigneContrat controller.
  */
 class LigneHorsContratController extends AbstractLigneContratController {
 
