@@ -24,7 +24,7 @@ abstract class AbstractLigne
     /**
      * @var Produit
      *
-     * @ORM\ManyToOne(targetEntity="Produit", inversedBy="lignecontrat")
+     * @ORM\ManyToOne(targetEntity="Produit")
      * @ORM\JoinColumn(name="produit_id", referencedColumnName="id")
      */
     private $produit;
