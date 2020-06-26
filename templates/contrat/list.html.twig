@@ -5,26 +5,27 @@
 <div class="col-md-6">
  <p><a href="{{ path( path_new ) }}">Ajout nouveau {{ titre }}</a></p>
  <table class="table table-bordered" >
-   <thead>
-     <tr>
-       <th>Adhérent</th>
-      </tr>
-    </thead>
     <tbody>
       {% for index, contrat in contrats %}
         <tr>
-          <th>{{ contrat.personne }}</td>
+          <th align="center">{{ contrat.personne }}</th>
+          <td>{{ form_start(showforms[index]) }}
+                <button class="btn btn-lg btn-success">Show</button>
+               {{ form_end(editforms[index]) }}
+          </td>
           <td>{{ form_start(editforms[index]) }}
-                  <input type="submit" value="Edit">
+                 {# } <input type="hidden" value="Edit"> #}
+                  <button class="btn btn-lg btn-warning">Edit</button>
                   {{ form_end(editforms[index]) }}
           </td>
            <td> {{ form_start(deleteforms[index]) }}
-                  <input type="submit" value="Delete">
+                 {#}<input type="hidden" value="Delete"> #}
+                  <button class="btn btn-lg btn-danger">Delete</button> 
                   {{ form_end(deleteforms[index]) }}
            </td>
          </tr>
          <tr>
-         <td colspan="3">
+         <td colspan="4">
            <table class="table-bordered table table-condensed" >
        <thead>
         <tr>

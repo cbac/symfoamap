@@ -19,16 +19,16 @@ class LigneContratType extends AbstractType
     {
     	$builder->add('produit', EntityType::class, array(
     					'class' => 'App:Amap\Produit',
-    					'placeholder' => 'Choisir un produit',
+    					'placeholder' => 'Choisir un produit : ',
     					'query_builder' => function (EntityRepository $er) {
     					return $er->createQueryBuilder('prod')
     					->orderBy('prod.nomProduit', 'ASC')
     					->addOrderBy('prod.bio')
-    					->addOrderBy('prod.t')
-    					->addOrderBy('prod.poid');
+    					->addOrderBy('prod.t', 'ASC')
+    					->addOrderBy('prod.poid', 'ASC');
     					}
-    					))
-            ->add('nombre', IntegerType::class)
+    					), [ 'label' => 'Produit : '])
+    					->add('nombre', IntegerType::class, [ 'label' => 'Nombre : '])
         ;
     }
     

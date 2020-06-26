@@ -17,7 +17,8 @@
                 <li>{{ form_row(lignecontrat.produit) }} - {{ form_row(lignecontrat.nombre) }}</li>
             {% endfor %}
         </ul>
-        <input type="submit" value="Save" />
+        {# }<input type="hidden" value="Save" /> #}
+        <button class="btn btn-lg btn-primary">Save</button>
     {{ form_end(edit_form) }}
 
 {% endblock %}

@@ -24,6 +24,8 @@ abstract class AbstractContratController extends Controller
         foreach ($contrats as $contrat) {
             $deleteforms[] = $this->createDeleteForm($contrat)->createView();
             $editforms[] = $this->createEditForm($contrat)->createView();
+            $showforms[] = $this->createShowForm($contrat)->createView();
+            
         }
         return $this->render('contrat/list.html.twig', array(
             'titre' => $ctype::title,
@@ -31,6 +33,7 @@ abstract class AbstractContratController extends Controller
             'path_new' => $ctype::path . '_new',
             'contrats' => $contrats,
             'deleteforms' => $deleteforms,
+            'showforms' => $showforms,
             'editforms' => $editforms
         ));
     }
@@ -142,11 +145,16 @@ abstract class AbstractContratController extends Controller
     {
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $em->persist($contrat);
             $this->addFlash('notice', $contrat::title.' ' . $contrat . ' persisté');
             
             foreach ($contrat->getLignes() as $ligne) {
                 $ligne->setContrat($contrat);
+                if($ligne->getNombre()>0){
                 $em->persist($ligne);
+                } else {
+                    $em->remove($ligne);
+                }
                 $this->addFlash('notice', $contrat::title.' ' . $ligne . ' persistée');
             }
             $em->flush();
@@ -196,7 +204,23 @@ abstract class AbstractContratController extends Controller
             ->setMethod('DELETE')
             ->getForm();
     }
-
+    /**
+     * Creates a form to show a Contrat entity.
+     *
+     * @param AbstractContrat $contrat
+     *            The Contrat entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    protected function createShowForm(AbstractContrat $contrat)
+    {
+        return $this->createFormBuilder()
+        ->setAction($this->generateUrl($contrat::path . '_show', array(
+            'id' => $contrat->getId()
+        )))
+        ->setMethod('GET')
+        ->getForm();
+    }
     /**
      * Creates a form to edit a Contrat entity.
      *

@@ -84,10 +84,10 @@ class ProduitController extends Controller
     public function editProduitAction(Request $request, Produit $produit) {
     	$deleteForm = $this->createDeleteForm ( $produit );
     	$editForm = $this->createForm ( 'App\Form\ProduitType', $produit );
-    	$editForm->handleRequest ( $request );
     
     	if ($editForm->isSubmitted () && $editForm->isValid ()) {
-    		$em = $this->getDoctrine ()->getManager ();
+    	    $editForm->handleRequest ( $request );
+    	    $em = $this->getDoctrine ()->getManager ();
     		$em->persist ( $produit );
     		$em->flush ();
     			
