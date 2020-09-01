@@ -21,6 +21,7 @@ abstract class AbstractContratController extends Controller
     {
         $deleteforms = array();
         $editforms = array();
+        $showforms = array();
         foreach ($contrats as $contrat) {
             $deleteforms[] = $this->createDeleteForm($contrat)->createView();
             $editforms[] = $this->createEditForm($contrat)->createView();
