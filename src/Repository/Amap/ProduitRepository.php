@@ -12,7 +12,7 @@ class ProduitRepository extends \Doctrine\ORM\EntityRepository
 {
 	public function findAll()
 	{
-		return $this->findBy(array(), array('nomProduit' => 'ASC','T' =>'ASC', 'poid' => 'ASC'));
+		return $this->findBy(array(), array('nomProduit' => 'ASC','t' =>'ASC', 'poid' => 'ASC'));
 	}
 	public function findByID()
 	{
