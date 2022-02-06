@@ -82,20 +82,16 @@ class ProduitController extends Controller
      * @Method({"GET", "POST"})
      */
     public function editProduitAction(Request $request, Produit $produit) {
-    	$deleteForm = $this->createDeleteForm ( $produit );
     	$editForm = $this->createForm ( 'App\Form\ProduitType', $produit );
-    
+    	$editForm->handleRequest ( $request );
     	if ($editForm->isSubmitted () && $editForm->isValid ()) {
-    	    $editForm->handleRequest ( $request );
     	    $em = $this->getDoctrine ()->getManager ();
     		$em->persist ( $produit );
     		$em->flush ();
     			
-    		return $this->redirectToRoute ( 'produit_show', array (
-    				'id' => $produit->getId ()
-    		) );
+    		return $this->redirectToRoute ( 'produit_index' );
     	}
-    
+    	$deleteForm = $this->createDeleteForm ( $produit );
     	return $this->render ( 'produit/edit.html.twig', array (
     			'produit' => $produit,
     			'edit_form' => $editForm->createView (),
