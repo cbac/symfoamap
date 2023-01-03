@@ -28,7 +28,8 @@
     </thead>	
     <tbody>
 		{% for ligne in personne['lignes'] %}
-			{% set cout = ((ligne.produit.prix  *  0.95)| round(2) ) * ligne.nombre %}
+			{# twig commenttwig commentset cout = ((ligne.produit.prix  *  0.95)| round(2) ) * ligne.nombre #}
+			{% set cout = (ligne.produit.prix ) * ligne.nombre %}
 			{% set total = total + cout %}
 		<tr>
 			<td> {{ ligne.produit }} </td>
