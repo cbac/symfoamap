@@ -3,7 +3,12 @@
 {% block body %}
     <h1> {{ titre }}</h1>
 <div class="col-md-6">
- <p><a href="{{ path( path_new ) }}">Ajout nouveau {{ titre }}</a></p>
+ <p>
+ {{ form_start(new_form) }}
+   {#} <input type="submit" value="New"> #}
+    <button class="btn btn-lg btn-primary">Nouveau {{ titre }}</button>
+    </p>
+{{ form_end(new_form) }}
  <table class="table table-bordered" >
     <tbody>
       {% for index, contrat in contrats %}
@@ -11,7 +16,7 @@
           <th align="center">{{ contrat.personne }}</th>
           <td>{{ form_start(showforms[index]) }}
                 <button class="btn btn-lg btn-success">Show</button>
-               {{ form_end(editforms[index]) }}
+               {{ form_end(showforms[index]) }}
           </td>
           <td>{{ form_start(editforms[index]) }}
                  {# } <input type="hidden" value="Edit"> #}

@@ -195,7 +195,7 @@ class Produit
     	$T = null;
     	if($this->getT()) { $T = 'T'.$this->getT(); }
     	$bio = ($this->getBio())?'bio':'non bio';
-    	return $this->getNomProduit().' '.$T.' '.$bio.' '.$this->getPoid().'kg';
+    	return $this->getNomProduit().' '.$T.' '.$bio.' '.$this->getPoid().' kg';
     }
     /**
      * Constructor

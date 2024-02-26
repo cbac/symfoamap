@@ -2,7 +2,12 @@
 
 {% block body %}
     <h1>Produits</h1>
-
+<p>
+{{ form_start(new_form) }}
+   {#} <input type="submit" value="New"> #}
+    <button class="btn btn-lg btn-primary">New</button>
+{{ form_end(new_form) }}
+</p>
     <table class="table  table-bordered">
         <thead>
             <tr>
@@ -12,10 +17,11 @@
                 <th>Poid</th>
                 <th>Prix</th>
                 <th>&nbsp;</th>
+                <th>&nbsp;</th>
             </tr>
         </thead>
         <tbody>
-        {% for produit in produits %}
+        {% for index, produit in produits %}
             <tr>
                 <td>{{ produit.nomProduit }}</td>
                 <td>{% if produit.t %}
@@ -29,7 +35,18 @@
 				</td>
                 <td>{{ produit.poid }}</td>
                 <td>{{ produit.prix }}</td>
-                <td><a href="{{ path('produit_edit', { 'id': produit.id }) }}">modifier</a></td>
+                <td>
+                {{ form_start(editforms[index]) }}
+                 {# } <input type="hidden" value="Edit"> #}
+                  <button class="btn btn-lg btn-warning">Edit</button>
+                  {{ form_end(editforms[index]) }}
+                </td>
+                <td>
+                {{ form_start(deleteforms[index]) }}
+                 {# } <input type="hidden" value="Edit"> #}
+                  <button class="btn btn-lg btn-danger">Delete</button>
+                  {{ form_end(deleteforms[index]) }}
+                </td>
             </tr>
         {% endfor %}
         </tbody>

@@ -22,12 +22,14 @@ abstract class AbstractContratController extends Controller
         $deleteforms = array();
         $editforms = array();
         $showforms = array();
+        $newForm = null;
         foreach ($contrats as $contrat) {
             $deleteforms[] = $this->createDeleteForm($contrat)->createView();
             $editforms[] = $this->createEditForm($contrat)->createView();
             $showforms[] = $this->createShowForm($contrat)->createView();
-            
         }
+        $newForm = $this->createNewForm($ctype)->createView();
+        
         return $this->render('contrat/list.html.twig', array(
             'titre' => $ctype::title,
             'path_edit' => $ctype::path . '_edit',
@@ -35,7 +37,8 @@ abstract class AbstractContratController extends Controller
             'contrats' => $contrats,
             'deleteforms' => $deleteforms,
             'showforms' => $showforms,
-            'editforms' => $editforms
+            'editforms' => $editforms,
+            'new_form' => $newForm
         ));
     }
 

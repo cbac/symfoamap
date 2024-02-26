@@ -24,9 +24,24 @@ class ProduitController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $produits = $em->getRepository('App:Amap\Produit')->findAll();
-
+        $deleteforms = array();
+        $editforms = array();
+        $showforms = array();
+        $newForm = null;
+        $contrat = null;
+        foreach ($produits as $produit) {
+            $deleteforms[] = $this->createDeleteForm($produit)->createView();
+            $editforms[] = $this->createEditForm($produit)->createView();
+            $showforms[] = $this->createShowForm($produit)->createView();      
+        }
+        $newForm = $this->createNewForm()->createView();
+        
         return $this->render('produit/index.html.twig', array(
             'produits' => $produits,
+            'deleteforms' => $deleteforms,
+            'showforms' => $showforms,
+            'editforms' => $editforms,
+            'new_form' => $newForm
         ));
     }
 
@@ -130,5 +145,43 @@ class ProduitController extends Controller
     	return $this->createFormBuilder ()->setAction ( $this->generateUrl ( 'produit_delete', array (
     			'id' => $produit->getId ()
     	) ) )->setMethod ( 'DELETE' )->getForm ();
+    }
+    /**
+     * Creates a form to add a Produit entity.
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    protected function createNewForm()
+    {
+        return $this->createFormBuilder()
+        ->setAction($this->generateUrl('produit_new'))
+        ->setMethod('GET')
+        ->getForm();
+    }
+    /**
+     * Creates a form to edit a Produit entity.
+     *
+     * @param Produit $produit
+     *        	The Produit entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Produit $produit) {
+        return $this->createFormBuilder ()->setAction ( $this->generateUrl ( 'produit_edit', array (
+            'id' => $produit->getId ()
+        ) ) )->setMethod ( 'GET' )->getForm ();
+    }
+    /**
+     * Creates a form to show a Produit entity.
+     *
+     * @param Produit $produit
+     *        	The Produit entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createShowForm(Produit $produit) {
+        return $this->createFormBuilder ()->setAction ( $this->generateUrl ( 'produit_show', array (
+            'id' => $produit->getId ()
+        ) ) )->setMethod ( 'GET' )->getForm ();
     }
 }
