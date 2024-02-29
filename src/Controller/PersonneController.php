@@ -24,13 +24,18 @@ class PersonneController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $personnes = $em->getRepository('App:Amap\Personne')->findAll();
+        $editforms = array();
         $deleteforms = array();
         foreach ($personnes as $personne) {
             $deleteforms[] = $this->createDeleteForm($personne)->createView();
-        }      
+            $editforms[] = $this->createEditForm($personne)->createView();
+        }
+        $newform = $this->createNewForm()->createView();
         return $this->render('personne/index.html.twig', array(
             'personnes' => $personnes,
-            'deleteforms' => $deleteforms
+            'editforms' => $editforms,
+            'deleteforms' => $deleteforms,
+            'new_form'=> $newform
         ));
     }
 
@@ -45,10 +50,13 @@ class PersonneController extends Controller
     public function showAction(Personne $personne)
     {
         $deleteForm = $this->createDeleteForm($personne);
-
+        $editForm = $this->createEditForm($personne);
+        
         return $this->render('personne/show.html.twig', array(
             'personne' => $personne,
             'delete_form' => $deleteForm->createView(),
+            'edit_form' => $editForm->createView(),
+            
         ));
     }
     /**
@@ -125,6 +133,31 @@ class PersonneController extends Controller
     	}
     
     	return $this->redirectToRoute ( 'personne_index' );
+    }
+    /**
+     * Creates a form to add a Produit entity.
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createNewForm()
+    {
+        return $this->createFormBuilder()
+        ->setAction($this->generateUrl('personne_new'))
+        ->setMethod('GET')
+        ->getForm();
+    }
+    /**
+     * Creates a form to edit a Produit entity.
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Personne $personne)
+    {
+        return $this->createFormBuilder()
+        ->setAction($this->generateUrl('personne_edit', array (
+            'id' => $personne->getId ())))
+        ->setMethod('GET')
+        ->getForm();
     }
     /**
      * Creates a form to delete a Personne entity.

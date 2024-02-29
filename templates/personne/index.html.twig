@@ -2,10 +2,15 @@
 
 {% block body %}
     <h1>Adhérents au contrat farine</h1>
-
+{{ form_start(new_form) }}
+   {#} <input type="submit" value="New"> #}
+    <button class="btn btn-lg btn-primary">New</button>
+{{ form_end(new_form) }}
     <table  class="table table-bordered"> 
         <thead>
             <tr>
+                             <th>Id</th>
+            
                  <th>Nom</th>
                 <th>Prenom</th>
             </tr>
@@ -13,11 +18,17 @@
         <tbody>
         {% for index, personne in personnes %}
             <tr>
+                            <td>{{ personne.id }}</td>
+            
                 <td>{{ personne.nom }}</td>
                 <td>{{ personne.prenom }}</td>
-                <td><a href="{{ path('personne_edit', { 'id': personne.id }) }}">modifier</a></td>
+                <td>
+                    {{ form_start(editforms[index]) }}
+                     <button class="btn btn-lg btn-warning">Edit</button>
+                    {{ form_end(editforms[index]) }}
+                 </td>
 				 <td> {{ form_start(deleteforms[index]) }}
-        				<input type="submit" value="Delete">
+						<button class="btn btn-lg btn-danger">Delete</button>
      				  {{ form_end(deleteforms[index]) }}
 				</td>
             </tr>

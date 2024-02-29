@@ -2,12 +2,17 @@
 
 {% block body %}
     <h1>Adhérent</h1>
+    <p>Id : {{ personne.id }} </p>
+    
 <p>Nom : {{ personne.nom }} </p>
 <p>Prénom : {{ personne.prenom }} </p>
    
 <p>
+     {{ form_start(edit_form) }}
+        <button class="btn btn-lg btn-warning">Edit</button>
+     {{ form_end(edit_form) }}
      {{ form_start(delete_form) }}
-        <input type="submit" value="Delete">
+        <button class="btn btn-lg btn-danger">Delete</button>
      {{ form_end(delete_form) }}
 </p>
 

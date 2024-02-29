@@ -16,10 +16,10 @@
 <p>Prix : {{ produit.prix }}</p>
 <p>
      {{ form_start(delete_form) }}
-        <input type="submit" value="Delete">
+         <button class="btn btn-lg btn-danger">Delete</button>
      {{ form_end(delete_form) }}
 </p>
-
-<p><a href="{{ path('produit_index') }}">Retour à la liste</a></p>
+<p><a class="btn btn-primary" href="{{ path('produit_index') }}" role="button">Retour à la liste</a>
+</p>
 </div>
 {% endblock %}
