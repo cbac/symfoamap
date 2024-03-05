@@ -101,6 +101,7 @@ abstract class AbstractContratController extends Controller
         $deleteForm = $this->createDeleteForm($contrat);
         $editForm = $this->createEditForm($contrat);
         $newForm = $this->createNewForm($contrat);
+        $listForm = $this->createListForm($contrat);
         
         return $this->render('contrat/show.html.twig', array(
             'titre' => $contrat::title,
@@ -108,6 +109,7 @@ abstract class AbstractContratController extends Controller
             'delete_form' => $deleteForm->createView(),
             'edit_form' => $editForm->createView(),
             'new_form' => $newForm->createView(),
+            'list_form'=> $listForm->createView(),
             'delete_lignes' => $this->createDeleteLignes($contrat, 'ligne' . $contrat::path),
             'edit_lignes' => $this->createEditLignes($contrat, 'ligne' . $contrat::path)
         ));
@@ -190,7 +192,23 @@ abstract class AbstractContratController extends Controller
         
         return $this->redirectToRoute($contrat::path.'_list');
     }
-
+    /**
+     * Creates a form to list the contracts.
+     *
+     * @param AbstractContrat $contrat
+     *            The Contrat entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    protected function createListForm(AbstractContrat $contrat)
+    {
+        return $this->createFormBuilder()
+        ->setAction($this->generateUrl($contrat::path . '_list', array(
+            'id' => $contrat->getId()
+        )))
+        ->setMethod('GET')
+        ->getForm();
+    }
     /**
      * Creates a form to delete a Contrat or HorsContratentity.
      *
